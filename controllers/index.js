@@ -89,7 +89,7 @@ exports.Reg = function (req, res, next) {
         }
     });
 
-    User.Reg(account, realname, nickname, email, phone, pwd, school_year, school, major,description, function (err) {
+    User.Reg(account, realname, nickname, email, phone, pwd, school_year, school, major, description, function (err) {
         if (err) {
             return next(err);
         }
@@ -128,13 +128,12 @@ exports.Login = function (req, res, next) {
         ep.emit('prop_err', '账号格式不合法');
         return;
     }
-
+    req.session.account = account;
     User.checkLogin(account, pwd, function (err, data) {
         if (err) {
             return next(err);
         }
         //获取入学年份 学校 专业一样的所有用户信息
-        debugger;
         if (data != null) {
             var school_year = data.school_year;
             var school = data.school;
@@ -152,7 +151,6 @@ exports.Login = function (req, res, next) {
                     obj.description = item.description;
                     arr.push(obj);
                 })
-                console.log(arr);
                 res.render('index', { users: arr });
             });
         }

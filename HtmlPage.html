@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <script src="SnailTool.js"></script>
+</head>
+<body>
+    （一）安装
+    npm install node-inspector -g
+    （二）使用
+    1. 调用 node --debug-brk=5858 app (在5858端口等待调试器）
+    2. 启动node-inspector： node-inspector --web-port 8080 --debug-port 5858 （在5858端口挂上调试器，然后允许程序员通过8080端口进行调试）
+    （三）调试
+    1. 使用Chrome浏览器，输入网址http://localhost:8080/debug?port=5858 进入调试模式，设置断点。
+    2. 访问你的网站，触发断点。
+
+    假如你使用的是5858调试端口，那么可以省略5858的参数：
+    1. node --debug app (使用--debug, --debug-brk都可以，关键看你调试神马）
+    2. node-inspector --web-port 8080
+
+</body>
+</html>

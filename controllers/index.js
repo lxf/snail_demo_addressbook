@@ -6,7 +6,7 @@ var moment = require('moment');
 var _ = require("underscore")._;
 
 //配置
-var config = require('../config');
+var config = require('../config/config');
 
 //common tool
 var tools = require('../common/tool');

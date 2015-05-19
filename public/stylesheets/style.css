@@ -1,15 +1,17 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  padding-top: 60px;
-  padding-bottom: 40px;
-}
-
 a {
   color: #00B7FF;
 }
 
-#index_body span
+.index_body span
 {
   text-align: center;
+}
+.navbar-brand {
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 51px;
+  height: 51px;
+}
+.panel-primary {
+  margin-top: 10px;
 }

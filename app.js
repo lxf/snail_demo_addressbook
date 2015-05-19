@@ -7,7 +7,7 @@ var session = require('express-session');
 var mongostore = require('connect-mongo')(session);
 var flash = require('connect-flash');
 
-var config = require('./config');
+var config = require('./config/config');
 
 var accessLog = fs.createWriteStream('access.log', { flags: 'a' });
 

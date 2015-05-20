@@ -76,8 +76,6 @@ exports.getMajorByUnivID = function (req, res, next) {
                     });
             },
             function (err) {
-                debugger;
-                console.log(item);
                 College.save(item, function (data) {
                     console.log('saving success');
                 });

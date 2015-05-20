@@ -5,6 +5,7 @@ var router = express.Router();
 var index = require('./controllers/index');
 var university = require('./controllers/university');
 var college = require('./controllers/college');
+var user = require('./controllers/user');
 
 router.get('/', index.showApp);
 router.get('/login', index.showApp);
@@ -23,6 +24,9 @@ router.post('/college/getSchools', college.getSchoolData)
 router.post('/college/getMajors', college.getMajorsData)
 
 router.get('/major', university.getMajorByUnivID)
+
+router.get('/user/edit', user.editUserInfo)
+
 
 function checkNotLogin(req, res, next) {
     if (req.session.account) {

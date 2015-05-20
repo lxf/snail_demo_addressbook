@@ -15,7 +15,7 @@ var UserSchema = new Schema({
     school: { type: String },
     major: { type: String },
     description: { type: String },
-    isEdit: { type: Boolean }//ÓÃ»§Ö»ÄÜÓĞÒ»´Î»ú»áĞŞ¸ÄÑ§Ğ£ Ñ§Äê ×¨ÒµµÈ
+    isEdit: { type: Boolean }//æ˜¯å¦å·²ç»ä¿®æ”¹è¿‡
 });
 
 
@@ -54,40 +54,41 @@ UserDAO.prototype.Reg = function (account, realname, nickname, email, phone, pwd
 
     var usermodel = new User(user);
 
-    //ÅĞ¶ÏÊÇ·ñ´æÔÚÍ¬ÑùµÄÕÊºÅ»òÕßÓÊÏä
+    //ï¿½Ğ¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ÊºÅ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     usermodel.save(callback);
 }
 
 /**
- * ¸ù¾İµÇÂ¼Ãû²éÕÒÓÃ»§
+ * ï¿½ï¿½ï¿½İµï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
  * Callback:
- * - err, Êı¾İ¿âÒì³£
- * - user, ÓÃ»§
- * @param {String} account µÇÂ¼Ãû
- * @param {Function} callback »Øµ÷º¯Êı
+ * - err, ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ì³£
+ * - user, ï¿½Ã»ï¿½
+ * @param {String} account ï¿½ï¿½Â¼ï¿½ï¿½
+ * @param {Function} callback ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½
  */
 UserDAO.prototype.getUserByLoginName = function (account, callback) {
     User.findOne({ 'account': account }, callback);
 };
 
 /**
- *»ñÈ¡Ò»×éÓÃ»§
- *@param{String} query ¹Ø¼ü×Ö
- *@param{Object} opts Ñ¡Ïî
- @param {Function} callback »Øµ÷º¯Êı
+ *ï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½Ã»ï¿½
+ *@param{String} query ï¿½Ø¼ï¿½ï¿½ï¿½
+ *@param{Object} opts Ñ¡ï¿½ï¿½
+ @param {Function} callback ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½
 */
 UserDAO.prototype.getUsersByQuery = function (query, opts, callback) {
     User.find(query, '', opts, callback);
 };
 
 /**
-*Ğ£ÑéµÇÂ¼
-*@param{String} account ÕÊºÅ
-*@param{String} pwd ÃÜÂë
-*@param{FUnction} callback »Øµ÷º¯Êı
+*Ğ£ï¿½ï¿½ï¿½ï¿½Â¼
+*@param{String} account ï¿½Êºï¿½
+*@param{String} pwd ï¿½ï¿½ï¿½ï¿½
+*@param{FUnction} callback ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½
 */
 UserDAO.prototype.checkLogin = function (account, pwd, callback) {
     User.findOne({ account: account, pwd: pwd }, callback);
 }
+
 
 module.exports = new UserDAO();

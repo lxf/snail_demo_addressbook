@@ -1,0 +1,18 @@
+﻿extends layoutindex
+block content
+	div#container.container
+		for item in users
+			div.panel.panel-primary
+				div.panel-heading
+					h3.panel-title
+						| #{item.realname}
+				div.panel-body
+					div.row.index_body
+						span.col-sm-3 手机
+						span.col-sm-3 邮箱
+						span.col-sm-6 简要介绍
+					div.row.index_body
+						span.col-sm-3 #{item.phone}
+						span.col-sm-3 #{item.email}
+						span.col-sm-6 #{item.description}
+	include footer.jade

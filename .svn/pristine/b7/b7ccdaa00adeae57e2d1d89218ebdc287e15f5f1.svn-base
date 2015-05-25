@@ -15,23 +15,7 @@ html
 		script(src='/javascripts/jquery-1.11.1.min.js')
 		script(src='/javascripts/bootstrap.min.js') 
 		script(src='/javascripts/index.js') 
-		script(src='/json/chinauniversity.js') 
+		script(src='/json/allunivlist.js') 
 		script(src='/javascripts/underscore/underscore.js') 
 	body
-		div.navbar.navbar-inverse.navbar-fixed-top
-			div.container
-				div.navbar-header
-					a.navbar-brand 十年通讯录
-				div.navbar-collapse.collapse(role="navigation")
-					ul.nav.navbar-nav
-						li
-							a Menu1
-						li
-							a Menu2
-					ul.nav.navbar-nav.navbar-right.hidden-sm
-						li.dropdown
-							a.dropdown-toggle(data-toggle="dropdown",aria-expanded="false") 个人中心
-							ul.dropdown-menu
-								li 
-									a(href='user/edit') 修改个人信息
 	block content

@@ -1,0 +1,5 @@
+﻿extends layout
+block content
+	div#container.container
+		button(class='btn btn-lg btn-primary btn-block' id='btn_load' type='submit') Load Data
+	include footer.jade

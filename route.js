@@ -6,7 +6,7 @@ var index = require('./controllers/index');
 var university = require('./controllers/university');
 var college = require('./controllers/college');
 var user = require('./controllers/user');
-
+var userapi=require('./API/userapi')
 router.get('/', index.showApp);
 router.get('/login', index.showApp);
 
@@ -26,7 +26,10 @@ router.post('/college/getMajors', college.getMajorsData)
 router.get('/major', university.getMajorByUnivID)
 
 router.get('/user/edit', user.editUserInfo)
+router.post('/user/update', user.updateUserInfo)
 
+//API related
+router.post('/api/getuserinfo',userapi.getUserInfo)
 
 function checkNotLogin(req, res, next) {
     if (req.session.account) {

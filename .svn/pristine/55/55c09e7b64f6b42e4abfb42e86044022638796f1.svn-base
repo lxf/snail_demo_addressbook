@@ -15,7 +15,7 @@ html
 		script(src='/javascripts/jquery-1.11.1.min.js')
 		script(src='/javascripts/bootstrap.min.js') 
 		script(src='/javascripts/index.js') 
-		script(src='/json/chinauniversity.js') 
+		script(src='/json/allunivlist.js') 
 		script(src='/javascripts/underscore/underscore.js') 
 	body
 		div.navbar.navbar-inverse.navbar-fixed-top

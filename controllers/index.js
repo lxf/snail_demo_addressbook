@@ -4,6 +4,7 @@ var eventproxy = require('eventproxy');
 var utility = require('utility');
 var moment = require('moment');
 var _ = require("underscore")._;
+var crypto = require('crypto');
 
 //配置
 var config = require('../config/config');
@@ -15,13 +16,11 @@ var mail = require('../common/mail');
 var User = require('../models/usermodel');
 var College = require('../models/collegemodel');
 
-
 exports.showApp = function (req, res) {
     res.render('login', { title: config.app_name });
 }
 
 exports.showReg = function (req, res) {
-
     var schoolyears = [],
         todayyear = (new Date()).getFullYear(),
         areas = [];
@@ -34,21 +33,21 @@ exports.showReg = function (req, res) {
         _.each(data[0].row, function (ele, index, list) {
             areas.push(ele.address);
         });
-
         res.render('reg', { schoolyears: schoolyears, schoolareas: areas, schools: [], majors: [] });
-    })
+    });
 }
 //注册
 exports.Reg = function (req, res, next) {
-    var account = validator.trim(req.body.account).toLowerCase();
-    var nickname = validator.trim(req.body.nickname).toLowerCase();
+    var account = validator.trim(req.body.account);
+    var nickname = validator.trim(req.body.nickname);
     var realname = validator.trim(req.body.realname);
-    var email = validator.trim(req.body.email).toLowerCase();
-    var phone = validator.trim(req.body.phone).toLowerCase();
+    var email = validator.trim(req.body.email);
+    var phone = validator.trim(req.body.phone);
     var pwd = validator.trim(req.body.password);
     var repwd = validator.trim(req.body.repassword);
     var school_year = validator.trim(req.body.school_year);
     var school = validator.trim(req.body.school);
+    var school_area = validator.trim(req.body.school_area);
     var major = validator.trim(req.body.major);
     var description = validator.trim(req.body.description);
     var ep = new eventproxy();
@@ -57,7 +56,7 @@ exports.Reg = function (req, res, next) {
         res.status(422);
         res.render('reg', { error: msg })
     });
-    if ([account, nickname, phone, pwd, repwd, realname].some(function (item) { return item === ''; })) {
+    if ([account, nickname, phone, pwd, repwd, realname, school_area].some(function (item) { return item === ''; })) {
         ep.emit('prop_err', '信息不完整');
         return;
     }
@@ -89,7 +88,7 @@ exports.Reg = function (req, res, next) {
         }
     });
 
-    User.Reg(account, realname, nickname, email, phone, pwd, school_year, school, major, description, function (err) {
+    User.Reg(account, realname, nickname, email, phone, pwd, school_year, school, major, description, school_area, function (err) {
         if (err) {
             return next(err);
         }
@@ -129,7 +128,8 @@ exports.Login = function (req, res, next) {
         return;
     }
     req.session.account = account;
-    User.checkLogin(account, pwd, function (err, data) {
+    var md5 = crypto.createHash('md5');
+    User.checkLogin(account, md5.update(pwd).digest('hex'), function (err, data) {
         if (err) {
             return next(err);
         }
@@ -138,7 +138,7 @@ exports.Login = function (req, res, next) {
             var school_year = data.school_year;
             var school = data.school;
             var major = data.major;
-
+            console.log("{ 'school': school, 'major': major, 'school_year': school_year }");
             User.getUsersByQuery({ 'school': school, 'major': major, 'school_year': school_year }, {}, function (err, result) {
                 debugger;
                 var arr = [];

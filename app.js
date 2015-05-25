@@ -25,15 +25,20 @@ app.use(bodyParser.urlencoded({
     extended: true,
     limit: '100mb'
 }));
+
 //view engine jade
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
 app.use(flash());
+
 app.use(session({
     secret: config.cookieSecret,
     key: config.cookiekey,//cookie name
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 30 },//30 days
-    store: new mongostore({ url: config.db })
+    store: new mongostore({ url: config.db }, function (e) {
+       
+    })
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -70,11 +75,10 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
-app.listen(config.port, config.host, function () {
-
-    console.log(new Date());
-    console.log('在端口:' + app.get('port') + '监听!');
-});
+ app.listen(config.port, config.host, function () {
+            console.log(new Date());
+            console.log('在端口:' + app.get('port') + '监听!');
+        });
 //setTimeout(function () {
 //    console.log(new Date());
 //    throw new Error("App Error");

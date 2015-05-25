@@ -12,6 +12,7 @@ var UserSchema = new Schema({
     email: { type: String },
     pwd: { type: String },
     school_year: { type: Number },
+    school_area: { type: String },
     school: { type: String },
     major: { type: String },
     description: { type: String },
@@ -28,6 +29,7 @@ function User(user) {
     this.phone = user.phone;
     this.pwd = user.pwd;
     this.school_year = user.school_year;
+    this.school_area = user.school_area;
     this.school = user.school;
     this.major = user.major;
     this.realname = user.realname;
@@ -36,9 +38,8 @@ function User(user) {
 
 var UserDAO = function () { };
 
-UserDAO.prototype.Reg = function (account, realname, nickname, email, phone, pwd, school_year, school, major, description, callback) {
+UserDAO.prototype.Reg = function (account, realname, nickname, email, phone, pwd, school_year, school, major, description, school_area, callback) {
     var md5 = crypto.createHash('md5');
-
     var user = {
         nickname: nickname,
         account: account,
@@ -46,47 +47,47 @@ UserDAO.prototype.Reg = function (account, realname, nickname, email, phone, pwd
         phone: phone,
         pwd: md5.update(pwd).digest('hex'),
         school_year: school_year,
+        school_area: school_area,
         school: school,
         major: major,
         realname: realname,
         description: description
     };
-
     var usermodel = new User(user);
-
-    //�ж��Ƿ�����ͬ�����ʺŻ�������
     usermodel.save(callback);
 }
+//用户编辑
+UserDAO.prototype.Update = function (_id, account, nickname, realname, email, phone, school_year, school, school_area, major, description, callback) {
+   /*
+    var user = {
+        nickname: nickname,
+        email: email,
+        phone: phone,
+        school_year: school_year,
+        school_area: school_area,
+        school: school,
+        major: major,
+        realname: realname,
+        description: description,
+        isEdit: true
+    };
+    var usermodel = new User(user);
+    */
+    var usermodel = new User();
+    //console.log("{$set:{'nickname':"+nickname+",'email':"+email+",'phone':"+phone+",'school_year':"+school_year+",'school_area':"+school_area+",'major':"+major+",'realname':"+realname+",'description':"+description+",'isEdit':"+true+"}");
+    User.update({ '_id': ObjectId(_id) }, {$set:{'nickname':nickname,'email':email,'phone':phone,'school_year':school_year,'school_area':school_area,'major':major,'realname':realname,'description':description,'isEdit':true}}, callback);
+}
 
-/**
- * ���ݵ�¼�������û�
- * Callback:
- * - err, ���ݿ��쳣
- * - user, �û�
- * @param {String} account ��¼��
- * @param {Function} callback �ص�����
- */
 UserDAO.prototype.getUserByLoginName = function (account, callback) {
     User.findOne({ 'account': account }, callback);
 };
 
-/**
- *��ȡһ���û�
- *@param{String} query �ؼ���
- *@param{Object} opts ѡ��
- @param {Function} callback �ص�����
-*/
 UserDAO.prototype.getUsersByQuery = function (query, opts, callback) {
     User.find(query, '', opts, callback);
 };
 
-/**
-*У����¼
-*@param{String} account �ʺ�
-*@param{String} pwd ����
-*@param{FUnction} callback �ص�����
-*/
 UserDAO.prototype.checkLogin = function (account, pwd, callback) {
+    //console.log('{ account:' + account + ', pwd:'+ pwd + '}');
     User.findOne({ account: account, pwd: pwd }, callback);
 }
 

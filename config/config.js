@@ -25,7 +25,7 @@ var config = {
         port: 25,
         auth: {
             user: 'mspublic@126.com',
-            pass: 'upsnail'
+            pass: ''
         }
     }
 };

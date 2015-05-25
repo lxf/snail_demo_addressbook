@@ -58,7 +58,37 @@ UserDAO.prototype.Reg = function (account, realname, nickname, email, phone, pwd
 }
 //用户编辑
 UserDAO.prototype.Update = function (_id, account, nickname, realname, email, phone, school_year, school, school_area, major, description, callback) {
-   /*
+    User.findById(_id, function (err, userinfo) {
+            userinfo.nickname = nickname,
+            userinfo.email = email,
+            userinfo.phone = phone,
+            userinfo.school_year = school_year,
+            userinfo.school_area = school_area,
+            userinfo.school = school,
+            userinfo.major = major,
+            userinfo.realname = realname,
+            userinfo.description = description,
+            userinfo.isEdit = true
+            userinfo.save(callback);
+    });
+    //User.findOne({ '_id': ObjectId(_id) }, function (err, userinfo) {
+    //    if (err || !userinfo) {
+    //        return callback(err);
+    //    }
+
+    //    userinfo.nickname = nickname,
+    //    userinfo.email = email,
+    //    userinfo.phone = phone,
+    //    userinfo.school_year = school_year,
+    //    userinfo.school_area = school_area,
+    //    userinfo.school = school,
+    //    userinfo.major = major,
+    //    userinfo.realname = realname,
+    //    userinfo.description = description,
+    //    userinfo.isEdit = true
+    //    userinfo.save(callback);
+    //});
+    /*
     var user = {
         nickname: nickname,
         email: email,
@@ -72,10 +102,11 @@ UserDAO.prototype.Update = function (_id, account, nickname, realname, email, ph
         isEdit: true
     };
     var usermodel = new User(user);
-    */
     var usermodel = new User();
     //console.log("{$set:{'nickname':"+nickname+",'email':"+email+",'phone':"+phone+",'school_year':"+school_year+",'school_area':"+school_area+",'major':"+major+",'realname':"+realname+",'description':"+description+",'isEdit':"+true+"}");
     User.update({ '_id': ObjectId(_id) }, {$set:{'nickname':nickname,'email':email,'phone':phone,'school_year':school_year,'school_area':school_area,'major':major,'realname':realname,'description':description,'isEdit':true}}, callback);
+    */
+
 }
 
 UserDAO.prototype.getUserByLoginName = function (account, callback) {
@@ -87,7 +118,6 @@ UserDAO.prototype.getUsersByQuery = function (query, opts, callback) {
 };
 
 UserDAO.prototype.checkLogin = function (account, pwd, callback) {
-    //console.log('{ account:' + account + ', pwd:'+ pwd + '}');
     User.findOne({ account: account, pwd: pwd }, callback);
 }
 

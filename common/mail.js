@@ -8,7 +8,6 @@ var SITE_ROOT_URL = 'http://' + config.host;
 var sendMail = function (data) {
     mail.sendMail(data, function (err) {
         if (err) {
-            console.log(err);
         }
     });
 };

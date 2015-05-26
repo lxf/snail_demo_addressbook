@@ -14,8 +14,7 @@ router.get('/reg', index.showReg);
 
 router.post('/reg', index.Reg);
 
-//router.post('/login', checkNotLogin);
-router.post('/login', index.Login);
+router.post('/index', index.Login);
 
 router.get('/university/add', university.showAddView)
 router.post('/university/add', university.addData)

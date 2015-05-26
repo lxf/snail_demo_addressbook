@@ -16,7 +16,7 @@ var UniversitySchema = new Schema({
 var University = mongodb.mongoose.model('University', UniversitySchema);
 var UniversityDAO = function () { };
 
-//院校数据保存
+//院校锟斤拷锟捷憋拷锟斤拷
 UniversityDAO.prototype.addJsonData = function (obj, callback) {
     var instance = new University(obj);
     instance.save(function (err) {
@@ -29,7 +29,7 @@ UniversityDAO.prototype.getAllUniv = function (query, opts, callback) {
     University.find(query, '', opts, callback);
 }
 
-//根据ID get专业信息
+
 UniversityDAO.prototype.getMajorByUnivID = function (univ_id, callback) {
     var count = 1;
     request('http://www.renren.com/GetDep.do?id=' + univ_id, function (error, response, body) {

@@ -138,9 +138,7 @@ exports.Login = function (req, res, next) {
             var school_year = data.school_year;
             var school = data.school;
             var major = data.major;
-            console.log("{ 'school': school, 'major': major, 'school_year': school_year }");
             User.getUsersByQuery({ 'school': school, 'major': major, 'school_year': school_year }, {}, function (err, result) {
-                debugger;
                 var arr = [];
                 _.each(result, function (item, index, list) {
                     debugger;
@@ -150,7 +148,7 @@ exports.Login = function (req, res, next) {
                     obj.email = item.email;
                     obj.description = item.description;
                     arr.push(obj);
-                })
+                });
                 res.render('index', { users: arr });
             });
         }

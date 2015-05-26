@@ -1,4 +1,0 @@
-div#footer.footer
-  !='<hr />'
-    p
-      a(href='http://www.upsnail.com' target='_blank')  snail@2015 All Right Reserved

@@ -138,7 +138,6 @@ exports.Login = function (req, res, next) {
             var school_year = data.school_year;
             var school = data.school;
             var major = data.major;
-            console.log("{ 'school': school, 'major': major, 'school_year': school_year }");
             User.getUsersByQuery({ 'school': school, 'major': major, 'school_year': school_year }, {}, function (err, result) {
                 debugger;
                 var arr = [];

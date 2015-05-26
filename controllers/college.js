@@ -13,7 +13,6 @@ exports.getSchoolData = function (req, res, next) {
                  callback();
              },
              function (err) {
-                 console.log(schools);
                  res.send(schools);
              }
             )

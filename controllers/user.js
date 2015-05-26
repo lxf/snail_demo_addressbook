@@ -12,7 +12,6 @@ exports.editUserInfo = function (req, res) {
                 return next(err);
             }
             if (userdata != null) {
-                console.log(userdata[0]);
                 res.render('edit', { userinfo: userdata[0] });
             }
         });
@@ -33,6 +32,7 @@ exports.updateUserInfo = function (req, res) {
     var description = validator.trim(req.body.description);
     var account = req.session.account;
     User.Update(_id, account, nickname, realname, email, phone, school_year, school, school_area, major, description, function (err, result) {
+        console.log(result.nModified);
         res.render('edit', {
             error: '更新成功!'
         });

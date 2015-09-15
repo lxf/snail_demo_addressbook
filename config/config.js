@@ -3,12 +3,12 @@
  */
 var path = require('path');
 var config = {
-    app_name: 'JIT Lab System',
+    app_name: 'JIT Lab',
     app_description: 'Manage Demo',
     app_keywords: 'Demo',
+    app_version:'1.0',
     cookieSecret: 'upsnail',
     cookiekey: 'cookiename',
-    host: 'localhost',
     db: 'mongodb://snail:123465@ds059938.mongolab.com:59938/upsnail',
     //db:'mongodb://127.0.0.1/upsnail',
     // redis 配置，默认是本地

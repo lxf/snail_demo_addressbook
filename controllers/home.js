@@ -16,8 +16,8 @@ var mail = require('../common/mail');
 var User = require('../models/usermodel');
 var College = require('../models/collegemodel');
 
-exports.showApp = function (req, res) {
-    res.render('login', { title: config.app_name });
+exports.showIndex = function (req, res) {
+    res.render('login', { title: config.app_name,version:config.app_version });
 }
 
 exports.showReg = function (req, res) {

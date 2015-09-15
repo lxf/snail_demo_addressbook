@@ -2,19 +2,21 @@
 var config = require('./config/config');
 var router = express.Router();
 
-var index = require('./controllers/index');
+var homeController = require('./controllers/Home');
 var university = require('./controllers/university');
 var college = require('./controllers/college');
 var user = require('./controllers/user');
-var userapi=require('./API/userapi')
-router.get('/', index.showApp);
-router.get('/login', index.showApp);
+var userapi=require('./API/userAPI');
 
-router.get('/reg', index.showReg);
+// 显示首页
+router.get('/', homeController.showIndex);
+router.get('/login', homeController.showIndex);
 
-router.post('/reg', index.Reg);
+// 注册
+router.get('/reg', homeController.showReg);
+router.post('/reg', homeController.Reg);
 
-router.post('/index', index.Login);
+router.post('/index', homeController.Login);
 
 router.get('/university/add', university.showAddView)
 router.post('/university/add', university.addData)

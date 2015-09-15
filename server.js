@@ -32,21 +32,22 @@ app.set('view engine', 'jade');
 
 app.use(flash());
 
-app.use(session({
-    secret: config.cookieSecret,
-    key: config.cookiekey,//cookie name
-    cookie: { maxAge: 1000 * 60 * 60 * 24 * 30 },//30 days
-    store: new mongostore({ url: config.db }, function (e) {
-       
-    })
-}));
+//暂时先取消缓存这个功能
+// app.use(session({
+//     secret: config.cookieSecret,
+//     key: config.cookiekey,//cookie name
+//     cookie: { maxAge: 1000 * 60 * 60 * 24 * 30 },//30 days
+//     store: new mongostore({ url: config.db }, function (e) {
+//        
+//     })
+// }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', approute);
 
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
+    var err = new Error('未找到您要找的内容!');
     err.status = 404;
     next(err);
 });
@@ -79,6 +80,7 @@ module.exports = app;
             console.log(new Date());
             console.log('在端口:' + app.get('port') + '监听!');
         });
+        
 //setTimeout(function () {
 //    console.log(new Date());
 //    throw new Error("App Error");

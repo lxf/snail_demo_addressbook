@@ -6,7 +6,6 @@ var logger = require('morgan');
 var session = require('express-session');
 var mongostore = require('connect-mongo')(session);
 var flash = require('connect-flash');
-
 var config = require('./config/config');
 
 var accessLog = fs.createWriteStream('access.log', { flags: 'a' });
@@ -32,15 +31,14 @@ app.set('view engine', 'jade');
 
 app.use(flash());
 
-//暂时先取消缓存这个功能
-// app.use(session({
-//     secret: config.cookieSecret,
-//     key: config.cookiekey,//cookie name
-//     cookie: { maxAge: 1000 * 60 * 60 * 24 * 30 },//30 days
-//     store: new mongostore({ url: config.db }, function (e) {
-//        
-//     })
-// }));
+app.use(session({
+    secret: config.cookieSecret,
+    key: config.cookiekey,//cookie name
+    cookie: { maxAge: 1000 * 60 * 60 * 24 * 30 },//30 days
+    store: new mongostore({ url: config.db }, function (e) {
+       
+    })
+}));
 
 app.use(express.static(path.join(__dirname, 'public')));
 

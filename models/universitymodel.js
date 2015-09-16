@@ -16,7 +16,6 @@ var UniversitySchema = new Schema({
 var University = mongodb.mongoose.model('University', UniversitySchema);
 var UniversityDAO = function () { };
 
-//ԺУ���ݱ���
 UniversityDAO.prototype.addJsonData = function (obj, callback) {
     var instance = new University(obj);
     instance.save(function (err) {

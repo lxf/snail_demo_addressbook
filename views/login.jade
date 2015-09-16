@@ -1,10 +1,6 @@
 extends shared/layout
 
 block content
-	if(error)
-		.alert.alert-error
-			| #{error}
-	else
 	div#header
 		div.container
 			div.row
@@ -29,7 +25,19 @@ block content
 							label 密码
 						div.col-sm-9.col-md-10
 							input(id='password' name='password' type='password' class='form-control' placeholder='Password' required)
+							div.row
+						div.col-sm-3.col-md-2
+							label 验证码
+						div.col-sm-9.col-md-10#vercode
+							p.col-sm-6.col-md-6
+								input(id='imgcode' name='imgcode' type='text' class='form-control' placeholder='Verification Code' required)
+							p.col-sm-6.col-md-6
+								img(src="/generatecode" required)
 					div.row
 						div.col-sm-3.col-md-2
 							button(class='btn btn-primary btn-block' type='submit') 登  陆
+						div.col-sm-9.col-md-10#errorinfo
+							if(error)
+								div(role="alert").alert.alert-danger
+									| #{error}
 	include shared/footer.jade

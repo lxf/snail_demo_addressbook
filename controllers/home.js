@@ -15,8 +15,10 @@ var mail = require('../common/mail');
 
 var User = require('../models/usermodel');
 var College = require('../models/collegemodel');
+    
 
 exports.showIndex = function (req, res) {
+    console.log(config.app_version);
     res.render('login', { title: config.app_name,version:config.app_version });
 }
 
@@ -107,14 +109,20 @@ exports.Reg = function (req, res, next) {
 exports.Login = function (req, res, next) {
     var account = validator.trim(req.body.account).toLowerCase();
     var pwd = validator.trim(req.body.password);
+    var imgcode = validator.trim(req.body.imgcode);
     var ep = new eventproxy();
     ep.fail(next);
     ep.on('prop_err', function (msg) {
         res.status(403);
         res.render('login', { error: msg })
     });
-    if ([account, pwd].some(function (item) { return item === ''; })) {
-        ep.emit('prop_err', '帐号密码不能为空!');
+    if(imgcode!=req.session.checkcode)
+    {
+        ep.emit('prop_err', '验证码输入不正确!');
+        return;
+    }
+    if ([account, pwd,req.session.account].some(function (item) { return item === ''; })) {
+        ep.emit('prop_err', '帐号、密码、验证码都不能为空!');
         return;
     }
 
@@ -127,6 +135,7 @@ exports.Login = function (req, res, next) {
         ep.emit('prop_err', '账号格式不合法');
         return;
     }
+    
     req.session.account = account;
     var md5 = crypto.createHash('md5');
     User.checkLogin(account, md5.update(pwd).digest('hex'), function (err, data) {

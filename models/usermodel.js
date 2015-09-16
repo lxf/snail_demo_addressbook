@@ -3,20 +3,16 @@ var mongodb = require('./mongodb');
 var Schema = mongodb.mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
+//用户模型
 var UserSchema = new Schema({
-    nickname: { type: String },
     account: { type: String },
     realname: { type: String },
-    address: { type: String },
     phone: { type: String },
     email: { type: String },
     pwd: { type: String },
     school_year: { type: Number },
-    school_area: { type: String },
-    school: { type: String },
     major: { type: String },
-    description: { type: String },
-    isEdit: { type: Boolean }//是否已经修改过
+    description: { type: String }
 });
 
 

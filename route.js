@@ -7,16 +7,19 @@ var university = require('./controllers/university');
 var college = require('./controllers/college');
 var user = require('./controllers/user');
 var userapi=require('./API/userAPI');
+var img=require('./controllers/img');
 
 // 显示首页
 router.get('/', homeController.showIndex);
 router.get('/login', homeController.showIndex);
 
+router.post('/login', homeController.Login);
+router.get('/generatecode', img.generateImgCode);
+
 // 注册
 router.get('/reg', homeController.showReg);
 router.post('/reg', homeController.Reg);
 
-router.post('/index', homeController.Login);
 
 router.get('/university/add', university.showAddView)
 router.post('/university/add', university.addData)

@@ -1,20 +1,12 @@
 extends shared/layout
 
 block content
-	div#header
-		div.container
-			div.row
-				div.col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3
-					p.navbar-header
-						| #{title}
-					p.navbar-version.pull-right
-						| 当前版本:#{version}
 	div.container
 		div.row
 			div.col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3
 				div.page-header
 					h1 登陆
-				form(class='form-signin' method='post' role='form' action='/login')
+				form(class='form-signin' method='post' role='form' action='/login?code=#{randomcode}')
 					div.row
 						div.col-sm-3.col-md-2
 							label 帐号

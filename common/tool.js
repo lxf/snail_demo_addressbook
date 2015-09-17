@@ -1,5 +1,6 @@
 
 var bcrypt = require('bcrypt');
+var crypto = require('crypto');
 var moment = require('moment');
 moment.locale('zh-cn'); // 使用中文
 
@@ -26,3 +27,12 @@ exports.bhash = function (str, callback) {
 exports.bcompare = function (str, hash, callback) {
   //bcrypt.compare(str, hash, callback);
 };
+
+/**
+ * MD5加密
+ * @param data
+ * @returns {*}
+ */
+exports.md5 = function(data) {
+	return crypto.createHash('md5').update(data).digest('hex');
+}

@@ -33,7 +33,7 @@ router.get('/user/edit', user.editUserInfo)
 router.post('/user/update', user.updateUserInfo)
 
 //API related
-router.post('/api/getuserinfo',userapi.getUserInfo)
+// router.post('/api/getuserinfo',userapi.getUserInfo)
 
 function checkNotLogin(req, res, next) {
     if (req.session.account) {

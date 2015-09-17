@@ -4,7 +4,6 @@ var eventproxy = require('eventproxy');
 var utility = require('utility');
 var moment = require('moment');
 var _ = require("underscore")._;
-var crypto = require('crypto');
 
 //配置
 var config = require('../config/config');
@@ -14,12 +13,15 @@ var tools = require('../common/tool');
 var mail = require('../common/mail');
 
 var User = require('../models/usermodel');
+var Major = require('../models/majormodel');
 var College = require('../models/collegemodel');
     
 
 exports.showIndex = function (req, res) {
-    console.log(config.app_version);
-    res.render('login', { title: config.app_name,version:config.app_version });
+    //生成随机code，放到session中
+    var randomcode=Math.random().toString(36).substr(2);
+    req.session.randomcode =randomcode;
+    res.render('login', { title: config.app_name,version:config.app_version,randomcode:randomcode});
 }
 
 exports.showReg = function (req, res) {
@@ -107,27 +109,30 @@ exports.Reg = function (req, res, next) {
 
 //登陆
 exports.Login = function (req, res, next) {
+    var ep = new eventproxy();
     var account = validator.trim(req.body.account).toLowerCase();
     var pwd = validator.trim(req.body.password);
     var imgcode = validator.trim(req.body.imgcode);
-    var ep = new eventproxy();
+    //随机值
+    var randomcode=req.query.code;
     ep.fail(next);
     ep.on('prop_err', function (msg) {
         res.status(403);
         res.render('login', { error: msg })
     });
-    if(imgcode!=req.session.checkcode)
-    {
-        ep.emit('prop_err', '验证码输入不正确!');
-        return;
-    }
+    
+    // if(imgcode!=req.session.checkcode)
+    // {
+    //     ep.emit('prop_err', '验证码输入不正确!');
+    //     return;
+    // }
     if ([account, pwd,req.session.account].some(function (item) { return item === ''; })) {
         ep.emit('prop_err', '帐号、密码、验证码都不能为空!');
         return;
     }
 
-    if (account.length < 6) {
-        ep.emit('prop_err', '账号不能少于6个字符');
+    if (account.length < 5) {
+        ep.emit('prop_err', '账号不能少于5个字符');
         return;
     }
 
@@ -135,31 +140,25 @@ exports.Login = function (req, res, next) {
         ep.emit('prop_err', '账号格式不合法');
         return;
     }
-    
+    //原始密码与我们的固定盐值进行拼接，然后做md5运算，运算后的结果再拼接上我们的随机码，再次md5运算，然后提交。
     req.session.account = account;
-    var md5 = crypto.createHash('md5');
-    User.checkLogin(account, md5.update(pwd).digest('hex'), function (err, data) {
+    var encryptpwd=tools.md5(tools.md5(pwd+config.secretsalt)+randomcode);
+  
+    User.checkLoginBySalt(account, function (err, data) {
         if (err) {
             return next(err);
         }
-        //获取入学年份 学校 专业一样的所有用户信息
         if (data != null) {
-            var school_year = data.school_year;
-            var school = data.school;
-            var major = data.major;
-            User.getUsersByQuery({ 'school': school, 'major': major, 'school_year': school_year }, {}, function (err, result) {
-                var arr = [];
-                _.each(result, function (item, index, list) {
-                    debugger;
-                    var obj = {};
-                    obj.realname = item.realname;
-                    obj.phone = item.phone;
-                    obj.email = item.email;
-                    obj.description = item.description;
-                    arr.push(obj);
-                });
-                res.render('index', { users: arr });
-            });
+            if(tools.md5(data.pwd+req.session.randomcode)==encryptpwd)
+            {
+               var school_year = data.school_year;
+               var major = data.major;
+               Major.getMajorNameByID(major,function (err, result) {
+               data.majorname=result.name;
+               res.render('index', { user:data });
+               }); 
+            }
+         
         }
 
     });

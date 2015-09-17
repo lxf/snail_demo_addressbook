@@ -5,14 +5,38 @@ html
 		meta(http-equiv='X-UA-Compatible' content='IE=edge')
 		meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
 		link(rel='icon', href='/images/favicon.ico')
-		title= app_name
-		link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
-		link(rel='stylesheet', href='/stylesheets/bootstrap-responsive.css')
-		link(rel='stylesheet', href='/stylesheets/index.css' )
-		script(src='/javascripts/jquery-1.11.1.min.js')
-		script(src='/javascripts/bootstrap.min.js') 
-		script(src='/javascripts/index.js') 
+		title #{title}
+		link(rel='stylesheet', href='/stylesheets/bootstrap/bootstrap.min.css')
+		link(rel='stylesheet', href='/stylesheets/bootstrap/bootstrap-responsive.css')
+		link(rel='stylesheet', href='/stylesheets/custom/index.css' )
+		script(src='/javascripts/jquery/jquery-1.11.1.min.js')
+		script(src='/javascripts/bootstrap/bootstrap.min.js') 
+		script(src='/javascripts/custom/index.js') 
 		script(src='/json/allunivlist.js') 
 		script(src='/javascripts/underscore/underscore.js') 
 	body
+	div#header
+		div.navbar.navbar-inverse.navbar-fixed-top
+				div.container
+					div.navbar-header
+						a.navbar-brand(href='/index') #{title}
+					if islogin==1
+					div.navbar-collapse.collapse(role="navigation")
+						ul.nav.navbar-nav
+							li
+								a 人员管理
+							li
+								a 团队管理
+							li  
+								a 通知管理
+							li
+								a 报表管理 
+						ul.nav.navbar-nav.navbar-right.hidden-sm
+							li.dropdown
+								a.dropdown-toggle(data-toggle="dropdown",aria-expanded="false") 个人中心
+								ul.dropdown-menu
+									li 
+										a(href='user/edit') 修改个人信息	
+							li.dropdown
+								a.dropdown-toggle 当前版本:#{version}					
 	block content

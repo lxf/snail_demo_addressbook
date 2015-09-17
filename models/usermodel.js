@@ -16,17 +16,14 @@ var UserSchema = new Schema({
 });
 
 
-var User = mongodb.mongoose.model("UserModel", UserSchema);
+var User = mongodb.mongoose.model("c_user", UserSchema);
 
 function User(user) {
-    this.nickname = user.nickname;
     this.account = user.account;
     this.email = user.email;
     this.phone = user.phone;
     this.pwd = user.pwd;
     this.school_year = user.school_year;
-    this.school_area = user.school_area;
-    this.school = user.school;
     this.major = user.major;
     this.realname = user.realname;
     this.description = user.description;
@@ -34,17 +31,14 @@ function User(user) {
 
 var UserDAO = function () { };
 
-UserDAO.prototype.Reg = function (account, realname, nickname, email, phone, pwd, school_year, school, major, description, school_area, callback) {
+UserDAO.prototype.Reg = function (account, realname, email, phone, pwd, school_year, major, description, callback) {
     var md5 = crypto.createHash('md5');
     var user = {
-        nickname: nickname,
         account: account,
         email: email,
         phone: phone,
         pwd: md5.update(pwd).digest('hex'),
         school_year: school_year,
-        school_area: school_area,
-        school: school,
         major: major,
         realname: realname,
         description: description
@@ -82,5 +76,8 @@ UserDAO.prototype.checkLogin = function (account, pwd, callback) {
     User.findOne({ account: account, pwd: pwd }, callback);
 }
 
+UserDAO.prototype.checkLoginBySalt = function (account, callback) {
+    User.findOne({ account: account}, callback);
+}
 
 module.exports = new UserDAO();

@@ -34,7 +34,7 @@ app.use(flash());
 app.use(session({
     secret: config.cookieSecret,
     key: config.cookiekey,//cookie name
-    cookie: { maxAge: 1000 * 60 * 60 * 24 * 30 },//30 days
+    cookie: { maxAge: 1000 * 60 * 60 * 24 * 1 },//30 days
     store: new mongostore({ url: config.db }, function (e) {
        
     })

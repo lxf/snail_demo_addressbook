@@ -3,4 +3,19 @@
 block content
 	div#container.container
 
+	.row
+		table#dg
+			thead
+				tr
+					th(data-option="field:account" width="120") 账号
+					th(data-option="field:realname" width="120") 真名
+					th(data-option="field:phone" width="120") 手机
+					th(data-option="field:email" width="120") 邮箱
+					th(data-option="field:school_year" width="120") 入学年份
+					th(data-option="field:major" width="120") 专业
+					th(data-option="field:description" width="120") 自我描述
+					th(data-option="field:isdel" width="120") 是否禁用
+			tbody
+	script
+	include ../public/javascripts/viewscripts/index.js
 	include shared/footer.jade

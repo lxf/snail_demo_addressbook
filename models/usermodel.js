@@ -12,7 +12,9 @@ var UserSchema = new Schema({
     pwd: { type: String },
     school_year: { type: Number },
     major: { type: String },
-    description: { type: String }
+    description: { type: String },
+    isadmin:{type:Boolean},
+    isdel:{type:Boolean}
 });
 
 
@@ -27,6 +29,8 @@ function User(user) {
     this.major = user.major;
     this.realname = user.realname;
     this.description = user.description;
+    this.isadmin=user.isadmin;
+    this.isdel=user.isdel;
 }
 
 var UserDAO = function () { };
@@ -78,6 +82,10 @@ UserDAO.prototype.checkLogin = function (account, pwd, callback) {
 
 UserDAO.prototype.checkLoginBySalt = function (account, callback) {
     User.findOne({ account: account}, callback);
+}
+
+UserDAO.prototype.getUsersByCondition=function(condition,callback){
+    User.find(condition,callback);
 }
 
 module.exports = new UserDAO();

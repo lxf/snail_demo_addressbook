@@ -121,11 +121,12 @@ exports.Login = function (req, res, next) {
         res.render('login', { error: msg })
     });
     
-    // if(imgcode!=req.session.checkcode)
-    // {
-    //     ep.emit('prop_err', '验证码输入不正确!');
-    //     return;
-    // }
+    if(imgcode!=req.session.checkcode)
+    {
+        ep.emit('prop_err', '验证码输入不正确!');
+        return;
+    }
+    
     if ([account, pwd,req.session.account].some(function (item) { return item === ''; })) {
         ep.emit('prop_err', '帐号、密码、验证码都不能为空!');
         return;
@@ -151,12 +152,23 @@ exports.Login = function (req, res, next) {
         if (data != null) {
             if(tools.md5(data.pwd+req.session.randomcode)==encryptpwd)
             {
-               var school_year = data.school_year;
-               var major = data.major;
-               Major.getMajorNameByID(major,function (err, result) {
-               data.majorname=result.name;
-               res.render('index', { user:data });
-               }); 
+               // var major = data.major;
+               // Major.getMajorNameByID(major,function (err, result) {
+               // data.majorname=result.name;
+               // res.render('index', { user:data,islogin:1});
+               // }); 
+               if(data.isadmin!=1)
+               {
+                   ep.emit('prop_err','您没有权限登陆!');
+                   return;
+               }
+               else
+               {
+                  //获取所有成员列表 
+                  User.getUsersByCondition({isadmin:false,isdel:false},function(err,result){
+                     res.render('index', {data:result,islogin:1});
+                  });
+               }
             }
          
         }

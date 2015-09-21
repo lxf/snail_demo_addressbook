@@ -49,10 +49,10 @@
     },
     HandleFormat: function (value, rec) {
         if (value == true) {
-            return "已处理";
+            return "已禁用";
         }
         else {
-            return "未处理";
+            return "已启用";
         }
     },
     MilleageFormat: function (value) {

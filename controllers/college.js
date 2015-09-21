@@ -41,6 +41,5 @@ exports.getMajorsData = function (req, res, next) {
            )
                 }
             });
-
     });
 }

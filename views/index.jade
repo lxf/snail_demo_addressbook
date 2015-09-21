@@ -2,20 +2,23 @@
 
 block content
 	div#container.container
-
-	.row
-		table#dg
-			thead
-				tr
-					th(data-option="field:account" width="120") 账号
-					th(data-option="field:realname" width="120") 真名
-					th(data-option="field:phone" width="120") 手机
-					th(data-option="field:email" width="120") 邮箱
-					th(data-option="field:school_year" width="120") 入学年份
-					th(data-option="field:major" width="120") 专业
-					th(data-option="field:description" width="120") 自我描述
-					th(data-option="field:isdel" width="120") 是否禁用
-			tbody
+		.row
+			
+		.row
+			table#dg
+				thead
+					tr
+						th(data-options="field:'account'" width="80") 账号
+						th(data-options="field:'realname'" width="80") 真名
+						th(data-options="field:'phone'" width="80") 手机
+						th(data-options="field:'email'" width="100") 邮箱
+						th(data-options="field:'school_year'" width="40") 入学年份
+						th(data-options="field:'major'" width="100") 专业
+						th(data-options="field:'description'" width="10") 自我描述
+						th(data-options="field:'isdel'" width="60" formatter="Common.HandleFormat") 是否禁用
+				tbody
+	script(type='text/javascript').                                                  
+		var local_data =!{JSON.stringify(data)};   
 	script
-	include ../public/javascripts/viewscripts/index.js
+		include ../public/javascripts/viewscripts/index.js
 	include shared/footer.jade

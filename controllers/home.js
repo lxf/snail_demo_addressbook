@@ -6,8 +6,7 @@ var moment = require('moment');
 var _ = require("underscore")._;
 var tools = require('../common/tool');
 var mail = require('../common/mail');
-var Q=require('q');
-
+var Promise=require('bluebird');
 //配置
 var config = require('../config/config');
 
@@ -163,16 +162,34 @@ exports.Login = function (req, res, next) {
                   User.getUsersByCondition({isadmin:false,isdel:false},function(err,result){
                     var griddata={rows:result,total:result.length};
                     //遍历获取专业的名称
-                    _.each(result, function (item, index, list) {
-                            var major = item.major;
-                            Major.getMajorNameByID(major,function (err, returndata) {
+                   var getMajorName=function(item){
+                       var p=new Promise(function(resolve,reject){
+                           Major.getMajorNameByID(item.major,function (err, returndata) {
                                 if(!_.isNull(returndata))
                                 {
-                                         griddata.rows[index].major=returndata.name;
+                                    _.each(griddata.rows,function(inneritem,index,list){
+                                      if(inneritem.account==item.account)
+                                      {
+                                          inneritem.major=returndata.name;
+                                      }
+                                    });
                                 }
-                            }); 
-                    });
-                     res.render('index', {data:griddata,islogin:1});
+                                    resolve(returndata);
+                            });
+                       });
+                       return p;
+                   };
+                   
+                   var promises=result.map(function(item){
+                       return getMajorName(item);
+                   });
+                   
+                   Promise.all(promises).then(function SuccessFun(result){
+                       res.render('index', {data:griddata,islogin:1});
+                   },function FailureFun(result){
+                        console.log(result);                       
+                  });
+                  
                   });
                }
             }

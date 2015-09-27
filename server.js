@@ -31,6 +31,7 @@ app.set('view engine', 'jade');
 
 app.use(flash());
 
+//这里网络不好的情况下会报错--之后再改
 app.use(session({
     secret: config.cookieSecret,
     key: config.cookiekey,//cookie name
@@ -74,11 +75,11 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
- app.listen(config.port, config.host, function () {
+  app.listen(config.port, config.host, function () {
             console.log(new Date());
             console.log('在端口:' + app.get('port') + '监听!');
         });
-        
+          
 //setTimeout(function () {
 //    console.log(new Date());
 //    throw new Error("App Error");

@@ -20,6 +20,7 @@
   "homepage": "https://github.com/lxf/snail_demo_addressbook",
   "dependencies": {
     "async": "1.0",
+    "bluebird": "^2.10.1",
     "body-parser": "1.9.2",
     "captchapng": "0.0.1",
     "cheerio": "*",

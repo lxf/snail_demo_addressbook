@@ -13,8 +13,8 @@ var config = {
     isdevelop:1,
     //盐值
     secretsalt:'what1r2u3nong7sha5lei4',
-    db: 'mongodb://root:Abc123456@ds047571.mongolab.com:47571/jitlabdb',
-    //db:'mongodb://127.0.0.1/upsnail',
+    //db: 'mongodb://root:Abc123456@ds047571.mongolab.com:47571/jitlabdb',
+    db:'mongodb://127.0.0.1/jitlabdb',
     // redis 配置，默认是本地
     redis_host: '127.0.0.1',
     redis_port: 6379,

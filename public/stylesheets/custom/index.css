@@ -66,4 +66,9 @@
 /*Login End*/
 
 
-
+/*index Begin*/
+.pageindex .panel-body
+{
+  padding: 0;
+}
+/*index End*/

@@ -1,22 +1,25 @@
 ﻿extends shared/layout
 
 block content
-	div#container.container
+	div#container.container.pageindex
 		.row
-			
 		.row
-			table#dg
-				thead
-					tr
-						th(data-options="field:'account'" width="80") 账号
-						th(data-options="field:'realname'" width="80") 真名
-						th(data-options="field:'phone'" width="80") 手机
-						th(data-options="field:'email'" width="100") 邮箱
-						th(data-options="field:'school_year'" width="40") 入学年份
-						th(data-options="field:'major'" width="100") 专业
-						th(data-options="field:'description'" width="10") 自我描述
-						th(data-options="field:'isdel'" width="60" formatter="Common.HandleFormat") 是否禁用
-				tbody
+			.panel.panel-primary
+				.panel-heading
+					p 人员管理
+				.panel-body
+					table#dg
+						thead
+							tr
+								th(data-options="field:'account'" width="80") 账号
+								th(data-options="field:'realname'" width="80") 真名
+								th(data-options="field:'phone'" width="80") 手机
+								th(data-options="field:'email'" width="100") 邮箱
+								th(data-options="field:'school_year'" width="40") 入学年份
+								th(data-options="field:'major'" width="100") 专业
+								th(data-options="field:'description'" width="100") 自我描述
+								th(data-options="field:'isdel'" width="60" formatter="Common.HandleFormat") 是否禁用
+						tbody
 	script(type='text/javascript').                                                  
 		var local_data =!{JSON.stringify(data)};   
 	script

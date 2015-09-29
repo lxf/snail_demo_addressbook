@@ -6,7 +6,7 @@ block content
 			div.col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3
 				div.page-header
 					h1 登陆
-				form(class='form-signin' method='post' role='form' action='/login?code=#{randomcode}')
+				form(class='form-signin' method='post' role='form' action='/login')
 					div.row
 						div.col-sm-3.col-md-2
 							label 帐号
@@ -25,6 +25,7 @@ block content
 								input(id='imgcode' name='imgcode' type='text' class='form-control' placeholder='Verification Code' required)
 							p.col-sm-6.col-md-6
 								img(src="/generatecode" required)
+								input(type='hidden' name='code' value='#{randomcode}')
 					div.row
 						div.col-sm-3.col-md-2
 							button(class='btn btn-primary btn-block' type='submit') 登  陆

@@ -112,8 +112,9 @@ exports.Login = function (req, res, next) {
     var account = validator.trim(req.body.account).toLowerCase();
     var pwd = validator.trim(req.body.password);
     var imgcode = validator.trim(req.body.imgcode);
+    var code = validator.trim(req.body.code);
     //随机值
-    var randomcode=req.query.code;
+    var randomcode=code;
     ep.fail(next);
     ep.on('prop_err', function (msg) {
         res.status(403);

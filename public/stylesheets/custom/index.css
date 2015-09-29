@@ -1,3 +1,9 @@
+/*Global  Begin*/
+input{
+  color:black;
+}
+/*Global  End*/
+
 /*Login Begin*/
 #header{
 	position: relative;
@@ -19,7 +25,7 @@
 
 .page-header {
   margin-top: 10px;
-    padding-bottom: 9px;
+  padding-bottom: 9px;
   margin: 40px 0 20px;
   border-bottom: 1px solid #eeeeee;
 }
@@ -67,7 +73,17 @@
 
 
 /*index Begin*/
+.search_row
+{
+    padding: 0;
+    margin: 10px 0 10px 0;
+}
 .pageindex .panel-body
+{
+  padding: 0;
+}
+
+.combo-p .panel-body
 {
   padding: 0;
 }

@@ -21,4 +21,13 @@ var commonData = {
 			{text:'2017',value:2017}
 			];
 	},
+	getMajor:function()
+	{
+		return [
+		{text:'计算机科学与技术',value:''},
+		{text:'NIIT',value:''},
+        {text:'嵌入式',value:''},		
+		{text:'其他',value:''}
+		];
+	}
 };

@@ -1,22 +1,23 @@
-var easy = new easyGridIniter($('#dg'), {
+//人员管理
+var easy = new easyGridIniter($('#dgForPeople'), {
 				easyOpts: {
 		pageSize: 20,
 		fitColumns: true,
 		showFooter: true,
 		onBeforeEdit: function (index, row) {
 			row.editing = true;
-			util.updateActions('dg', index);
+			util.updateActions('dgForPeople', index);
 		},
 		onAfterEdit: function (index, row) {
 			row.editing = false;
-			util.updateActions('dg', index);
+			util.updateActions('dgForPeople', index);
 		},
 		onCancelEdit: function (index, row) {
 			row.editing = false;
-			util.updateActions('dg', index);
+			util.updateActions('dgForPeople', index);
 		}
 	}
 });
-$("#dg").datagrid("loadData", local_data);
+$("#dgForPeople").datagrid("loadData", local_data);
 
 

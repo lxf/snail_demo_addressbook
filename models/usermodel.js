@@ -13,8 +13,8 @@ var UserSchema = new Schema({
     school_year: { type: Number },
     major: { type: String },
     description: { type: String },
-    isadmin:{type:Boolean},
-    isdel:{type:Boolean}
+    isadmin: { type: Boolean },
+    isdel: { type: Boolean }
 });
 
 
@@ -29,8 +29,8 @@ function User(user) {
     this.major = user.major;
     this.realname = user.realname;
     this.description = user.description;
-    this.isadmin=user.isadmin;
-    this.isdel=user.isdel;
+    this.isadmin = user.isadmin;
+    this.isdel = user.isdel;
 }
 
 var UserDAO = function () { };
@@ -50,22 +50,22 @@ UserDAO.prototype.Reg = function (account, realname, email, phone, pwd, school_y
     var usermodel = new User(user);
     usermodel.save(callback);
 }
-//用户编辑
-UserDAO.prototype.Update = function (_id, account, nickname, realname, email, phone, school_year, school, school_area, major, description, callback) {
 
-    User.findById(_id, function (err, userinfo) {
-            userinfo.nickname = nickname,
-            userinfo.email = email,
-            userinfo.phone = phone,
-            userinfo.school_year = school_year,
-            userinfo.school_area = school_area,
-            userinfo.school = school,
-            userinfo.major = major,
-            userinfo.realname = realname,
-            userinfo.description = description,
-            userinfo.isEdit = true
-            userinfo.save(callback);
-    });
+//用户编辑
+UserDAO.prototype.Update = function (_id, phone, email, school_year, major, description, isdel) {
+    User.findByIdAndUpdate(_id,
+        {
+            $set: {
+                phone: phone,
+                email: email,
+                school_year: school_year,
+                major:major,
+                description: description,
+                isdel: isdel
+            }
+        }, function (err, doc) {
+            console.log(doc)
+        });
 }
 
 UserDAO.prototype.getUserByLoginName = function (account, callback) {
@@ -81,11 +81,12 @@ UserDAO.prototype.checkLogin = function (account, pwd, callback) {
 }
 
 UserDAO.prototype.checkLoginBySalt = function (account, callback) {
-    User.findOne({ account: account}, callback);
+    User.findOne({ account: account }, callback);
 }
 
-UserDAO.prototype.getUsersByCondition=function(condition,callback){
-    User.find(condition,callback);
+UserDAO.prototype.getUsersByCondition = function (condition, callback) {
+    User.find(condition, callback);
 }
 
+//TODO 这个要重点解释
 module.exports = new UserDAO();

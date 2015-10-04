@@ -4,11 +4,12 @@
  *Date:2015-09-29
  *依赖
     *1.underscore.js
+	*2.jquery
  */
 var util = {
 	initOperate: function (val, row, index) {
 		if (row.editing) {
-			var s = '<i class="fa fa-save fa-lg"></i>&nbsp;<a href="#" onclick="util.saveRow(this)" style="color:whitesmoke">保存</a> ';
+			var s = '<i class="fa fa-save fa-lg"></i>&nbsp;<a href="#" onclick="util.saveRow(this,util.saveRowCallback)" style="color:whitesmoke">保存</a> ';
 			var c = '<i class="fa fa-undo fa-lg"></i>&nbsp;<a href="#" onclick="util.cancelRow(this)" style="color:whitesmoke">取消</a>';
 			return s + c;
 		} else {
@@ -16,6 +17,18 @@ var util = {
 			return e;
 		}
     },
+	//带有密码重置功能
+	initOperateWithPwd:function(val,row,index){
+		if (row.editing) {
+			var s = '<i class="fa fa-save fa-lg"></i>&nbsp;<a href="#" onclick="util.saveRow(this,util.saveRowCallback)" style="color:whitesmoke">保存</a> ';
+			var c = '<i class="fa fa-undo fa-lg"></i>&nbsp;<a href="#" onclick="util.cancelRow(this)" style="color:whitesmoke">取消</a>';
+			return s + c;
+		} else {
+			var e = '<span id="uploadify"></span><i class="fa fa-edit fa-lg"></i>&nbsp;<a href="#" onclick="util.editOperate(this)" style="color:black">编辑</a>';
+			    e += '<span id="uploadify"></span><i class="fa fa-edit fa-lg"></i>&nbsp;<a href="#" onclick="util.resetPwd(this)" style="color:black">重置密码</a>';
+			return e;
+		}
+	},
 	//获取当前grid的id
     getDatagridId: function (target) {
 		var idname = $(target).parents('.datagrid-view').children('table').attr('id');
@@ -27,7 +40,7 @@ var util = {
 		return parseInt(tr.attr('datagrid-row-index'));
 	},
 	//更新当前编辑行的状态
-	updateActions:function (dg, index) {
+	updateActions: function (dg, index) {
 		$('#' + dg).datagrid('updateRow', {
 			index: index,
 			row: {}
@@ -51,9 +64,22 @@ var util = {
 		if (_.isNumber(index)) {
 			var rowdata = $('#' + id).datagrid('getRows')[index];
 			if (callback != undefined) {
-				callback(rowdata);
+				callback(rowdata, id);
 			}
 		}
+	},
+	//saveRowCallback,回调函数
+	saveRowCallback: function (rowdata, datagridid) {
+		switch (datagridid) {
+			case "dgForPeople":
+					
+				break;
+			default:
+				break;
+
+		}
+		//console.log('行数据:' + rowdata);
+		//console.log('datagrid的id:' + datagridid);
 	},
 	//取消保存当前行
 	cancelRow: function (target) {

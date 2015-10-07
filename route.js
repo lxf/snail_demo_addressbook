@@ -9,9 +9,12 @@ var user = require('./controllers/user');
 var userapi=require('./API/userAPI');
 var img=require('./controllers/img');
 
-// 显示首页
-router.get('/', homeController.showIndex);
-router.get('/login', homeController.showIndex);
+// 登陆
+router.get('/', homeController.showLogin);
+router.get('/login', homeController.showLogin);
+
+//首页
+router.get('/index',homeController.showIndex);
 
 router.post('/login', homeController.Login);
 router.get('/generatecode', img.generateImgCode);
@@ -29,17 +32,10 @@ router.post('/college/getMajors', college.getMajorsData)
 
 router.get('/major', university.getMajorByUnivID)
 
-router.get('/user/edit', user.editUserInfo)
-router.post('/user/update', user.updateUserInfo)
+//更新用户信息
+router.post('/user/update', user.partialUpdate)
 
 //API related
 // router.post('/api/getuserinfo',userapi.getUserInfo)
 
-function checkNotLogin(req, res, next) {
-    if (req.session.account) {
-        req.flash('error', '已登录!');
-        res.redirect('back');//返回之前的页面
-    }
-    next();
-}
 module.exports = router;

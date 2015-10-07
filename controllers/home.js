@@ -15,12 +15,18 @@ var User = require('../models/usermodel');
 var Major = require('../models/majormodel');
 var College = require('../models/collegemodel');
 
-
-exports.showIndex = function (req, res) {
+//显示注册页面
+exports.showLogin = function (req, res) {
     //生成随机code，放到session中
     var randomcode = Math.random().toString(36).substr(2);
     req.session.randomcode = randomcode;
     res.render('login', { title: config.app_name, version: config.app_version, randomcode: randomcode });
+}
+
+//进入首页
+exports.showIndex = function (req, res) {
+    checkNotLogin(req, res);
+    renderIndex(res);
 }
 
 exports.showReg = function (req, res) {
@@ -144,7 +150,7 @@ exports.Login = function (req, res, next) {
     req.session.account = account;
     var encryptpwd = tools.md5(tools.md5(pwd + config.secretsalt) + randomcode);
 
-    User.checkLoginBySalt(account, function (err, data) {
+    return User.checkLoginBySalt(account, function (err, data) {
         if (err) {
             return next(err);
         }
@@ -155,41 +161,50 @@ exports.Login = function (req, res, next) {
                     return;
                 }
                 else {
-                    //获取所有成员列表 
-                    User.getUsersByCondition({ isadmin: false, isdel: false }, function (err, result) {
-                        var griddata = { rows: result, total: result.length };
-                        //遍历获取专业的名称
-                        var getMajorName = function (item) {
-                            var p = new Promise(function (resolve, reject) {
-                                Major.getMajorNameByID(item.major, function (err, returndata) {
-                                    if (!_.isNull(returndata)) {
-                                        _.each(griddata.rows, function (inneritem, index, list) {
-                                            if (inneritem.account == item.account) {
-                                                inneritem.major = returndata.name;
-                                            }
-                                        });
-                                    }
-                                    resolve(returndata);
-                                });
-                            });
-                            return p;
-                        };
-
-                        var promises = result.map(function (item) {
-                            return getMajorName(item);
-                        });
-
-                        Promise.all(promises).then(function SuccessFun(result) {
-                            res.render('index', { data: griddata, islogin: 1 });
-                        }, function FailureFun(result) {
-                            console.log(result);
-                        });
-
-                    });
+                    res.redirect('/index');
                 }
             }
-
         }
-
     });
+}
+
+function renderIndex(res) {
+    //获取所有成员列表 
+    User.getUsersByCondition({ isadmin: false, isdel: false }, function (err, result) {
+        var griddata = { rows: result, total: result.length };
+        //遍历获取专业的名称
+        var getMajorName = function (item) {
+            var p = new Promise(function (resolve, reject) {
+                Major.getMajorNameByID(item.major, function (err, returndata) {
+                    if (!_.isNull(returndata)) {
+                        _.each(griddata.rows, function (inneritem, index, list) {
+                            if (inneritem.account == item.account && returndata != undefined) {
+                                inneritem.major = returndata.name;
+                            }
+                        });
+                    }
+                    resolve(returndata);
+                });
+            });
+            return p;
+        };
+
+        var promises = result.map(function (item) {
+            return getMajorName(item);
+        });
+
+        Promise.all(promises).then(function SuccessFun(result) {
+            res.render('index', { data: griddata, islogin: 1 });
+        }, function FailureFun(result) {
+            console.log(result);
+        });
+    });
+}
+
+
+function checkNotLogin(req, res) {
+    if (req.session.account) {
+        req.flash('error', '已登录!');
+        res.redirect('back');//返回之前的页面
+    }
 }

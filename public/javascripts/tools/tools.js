@@ -18,14 +18,14 @@ var util = {
 		}
     },
 	//带有密码重置功能
-	initOperateWithPwd:function(val,row,index){
+	initOperateWithPwd: function (val, row, index) {
 		if (row.editing) {
 			var s = '<i class="fa fa-save fa-lg"></i>&nbsp;<a href="#" onclick="util.saveRow(this,util.saveRowCallback)" style="color:whitesmoke">保存</a> ';
 			var c = '<i class="fa fa-undo fa-lg"></i>&nbsp;<a href="#" onclick="util.cancelRow(this)" style="color:whitesmoke">取消</a>';
 			return s + c;
 		} else {
 			var e = '<span id="uploadify"></span><i class="fa fa-edit fa-lg"></i>&nbsp;<a href="#" onclick="util.editOperate(this)" style="color:black">编辑</a>';
-			    e += '<span id="uploadify"></span><i class="fa fa-edit fa-lg"></i>&nbsp;<a href="#" onclick="util.resetPwd(this)" style="color:black">重置密码</a>';
+			e += '<span id="uploadify"></span><i class="fa fa-edit fa-lg"></i>&nbsp;<a href="#" onclick="util.resetPwd(this)" style="color:black">重置密码</a>';
 			return e;
 		}
 	},
@@ -72,7 +72,7 @@ var util = {
 	saveRowCallback: function (rowdata, datagridid) {
 		switch (datagridid) {
 			case "dgForPeople":
-					
+				util.sendPost('/user/update', rowdata);
 				break;
 			default:
 				break;
@@ -85,5 +85,19 @@ var util = {
 	cancelRow: function (target) {
 		var id = getDatagridId(target);
 		$('#' + id).datagrid('cancelEdit', getRowIndex(target));
+	},
+	//Ajax请求
+	//url请求地址,par参数
+	sendPost: function (url, par) {
+		$.ajax({
+			url: url,
+			type: 'POST',
+			contentType: 'application/json;charset=utf-8',
+			data: JSON.stringify(par),
+			success: function (res) {
+				//显示操作的结果
+				showSuccessAutoClose("提示", res.Item2, res.redirectUrl);
+			}
+		});
 	}
 };

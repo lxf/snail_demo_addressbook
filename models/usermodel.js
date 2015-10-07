@@ -51,20 +51,25 @@ UserDAO.prototype.Reg = function (account, realname, email, phone, pwd, school_y
     usermodel.save(callback);
 }
 
-//用户编辑
-UserDAO.prototype.Update = function (_id, phone, email, school_year, major, description, isdel) {
+//部分更新
+UserDAO.prototype.partialUpdate = function (_id, phone, email, school_year, major, description, isdel,callback) {
     User.findByIdAndUpdate(_id,
         {
             $set: {
                 phone: phone,
                 email: email,
                 school_year: school_year,
-                major:major,
+                major: major,
                 description: description,
                 isdel: isdel
             }
         }, function (err, doc) {
-            console.log(doc)
+            if (err) {
+                return next(err);
+            }
+            else {
+                return callback(doc);
+            }
         });
 }
 

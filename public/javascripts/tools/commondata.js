@@ -23,11 +23,11 @@ var commonData = {
 	},
 	getMajor:function()
 	{
+		//这样做其实不安全,这里仅作为演示
 		return [
-		{text:'计算机科学与技术',value:''},
-		{text:'NIIT',value:''},
-        {text:'嵌入式',value:''},		
-		{text:'其他',value:''}
+		{text:'计算机科学与技术',value:'55fa5a6ae4b01124a0158dd2'},
+		{text:'NIIT',value:'55fa5a22e4b01124a0158dd0'},
+		{text:'其他',value:'55fa5a8de4b01124a0158dd5'}
 		];
 	}
 };

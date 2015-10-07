@@ -44,6 +44,6 @@
     "request": "^2.54.0",
     "underscore": "*",
     "utility": "^1.0.0",
-    "validator": "^3.22.1"
+    "validator": "*"
   }
 }

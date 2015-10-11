@@ -6,6 +6,11 @@
     *1.underscore.js
 	*2.jquery
  */
+(function () {
+	//这里一切都还没有	
+	
+})();
+
 var util = {
 	initOperate: function (val, row, index) {
 		if (row.editing) {
@@ -73,11 +78,18 @@ var util = {
 		var index = $('#' + target).datagrid('appendRow', {}).datagrid('getRows').length - 1;
 		$('#' + target).datagrid('beginEdit', index);
 	},
+	clickMenu:function(me)
+	{
+		Cookies.set('cm', me.id);
+	},
 	//saveRowCallback,回调函数
 	saveRowCallback: function (rowdata, datagridid) {
 		switch (datagridid) {
 			case "dgForPeople":
 				util.sendPost('/user/update', rowdata);
+				break;
+			case "dgForTeam":
+				util.sendPost('/team/add', rowdata);
 				break;
 			default:
 				break;
@@ -99,6 +111,17 @@ var util = {
 			success: function (res) {
 				//显示操作的结果
 				showSuccessAutoClose("提示", res.Item2, res.redirectUrl);
+			}
+		});
+	},
+	sendGet:function(url,cb)
+	{
+		$.ajax({
+			url: url,
+			type: 'GET',
+			contentType: 'application/json;charset=utf-8',
+			success: function (res) {
+				cb(res);
 			}
 		});
 	}

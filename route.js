@@ -27,6 +27,11 @@ router.get('/generatecode', img.generateImgCode);
 router.get('/team', authentication);
 router.get('/team', teamController.showTeam);
 
+router.post('/team/add',authentication);
+router.post('/team/add',teamController.addTeam);
+
+router.get('/team/getall',authentication);
+router.get('/team/getall',teamController.getTeams);
 // 注册
 // router.get('/reg', homeController.showReg);
 // router.post('/reg', homeController.Reg);

@@ -23,6 +23,7 @@ html
 		script(src='/javascripts/easyui/easyGridIniter.js') 
 		script(src='/javascripts/easyui/common.js') 
 		script(src='/javascripts/artDialog/dialog-min.js') 
+		script(src='http://apps.bdimg.com/libs/Cookies.js/0.4.0/cookies.min.js') 
 	body
 		nav.navbar.navbar-inverse
 			div.container-fluid
@@ -34,15 +35,15 @@ html
 						span.icon-bar
 					a.navbar-brand JITLAB
 				div#bs-example-navbar-collapse-1.collapse.navbar-collapse
-					ul.nav.navbar-nav
-						li.active
+					ul#menuul.nav.navbar-nav
+						li#lipeople.active(onclick='util.clickMenu')
 							a(href='/index') 人员管理
 								span.sr-only (current)
-						li
+						li#liteam(onclick='util.clickMenu(this)')
 							a(href='/team') 团队管理
-						li
+						li#linotice(onclick='util.clickMenu(this)')
 							a(href='#') 通知管理
-						li
+						li#lireport(onclick='util.clickMenu(this)')
 							a(href='#') 报表管理
 					ul.nav.navbar-nav.navbar-right
 						li

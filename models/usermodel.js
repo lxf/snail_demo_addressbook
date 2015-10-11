@@ -14,7 +14,7 @@ var UserSchema = new Schema({
     major: { type: String },
     description: { type: String },
     isadmin: { type: Boolean },
-    isdel: { type: Boolean }
+   isdel: { type: Boolean, default: false }
 });
 
 

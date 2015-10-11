@@ -68,6 +68,11 @@ var util = {
 			}
 		}
 	},
+	//新增一行
+	addRow: function (target) {
+		var index = $('#' + target).datagrid('appendRow', {}).datagrid('getRows').length - 1;
+		$('#' + target).datagrid('beginEdit', index);
+	},
 	//saveRowCallback,回调函数
 	saveRowCallback: function (rowdata, datagridid) {
 		switch (datagridid) {
@@ -76,10 +81,7 @@ var util = {
 				break;
 			default:
 				break;
-
 		}
-		//console.log('行数据:' + rowdata);
-		//console.log('datagrid的id:' + datagridid);
 	},
 	//取消保存当前行
 	cancelRow: function (target) {

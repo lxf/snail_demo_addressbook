@@ -28,7 +28,6 @@ exports.showIndex = function (req, res) {
      renderIndex(res);
 };
 
-
 //登陆
 exports.Login = function (req, res, next) {
     var ep = new eventproxy(),

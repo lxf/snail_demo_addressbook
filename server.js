@@ -13,6 +13,7 @@ var accessLog = fs.createWriteStream('access.log', { flags: 'a' });
 var app = express();
 
 var approute = require('./route');
+app.set('port', process.env.PORT || 3000);
 
 app.use(logger('dev'));
 app.use(logger({ stream: accessLog }));
@@ -37,7 +38,7 @@ app.use(session({
     key: config.cookiekey,//cookie name
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 1 },//30 days
     store: new mongostore({ url: config.db }, function (e) {
-       
+
     })
 }));
 
@@ -54,6 +55,7 @@ app.use(function (req, res, next) {
 
 // development error handler
 // will print stacktrace
+
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
         res.status(err.status || 500);
@@ -66,6 +68,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
+
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
@@ -75,10 +78,10 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
-  app.listen(config.port, config.host, function () {
-            console.log(new Date());
-            console.log('在端口:' + app.get('port') + '监听!');
-        });
+
+app.listen(config.port, config.host, function () {
+    console.log('在端口:' + app.get('port') + '监听!');
+});
           
 //setTimeout(function () {
 //    console.log(new Date());

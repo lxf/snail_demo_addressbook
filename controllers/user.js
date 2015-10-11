@@ -35,7 +35,7 @@ exports.partialUpdate = function (req, res) {
         //这边可以做相关的业务规则限制，这也是为什么要多加一个controller层的原因
         User.partialUpdate(_id, phone, email, school_year, major, description, isdel, function (result) {
             if (!result.errors) {
-                res.json({"Item1":true,"Item2":"更新成功!","redirectUrl":"/login"});
+                res.json({"Item1":true,"Item2":"更新成功!","redirectUrl":"/index"});
             }
             else {
                 res.json({"Item1":false,"Item2":"更新失败!"});

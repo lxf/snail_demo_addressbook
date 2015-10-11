@@ -24,29 +24,38 @@ html
 		script(src='/javascripts/easyui/common.js') 
 		script(src='/javascripts/artDialog/dialog-min.js') 
 	body
-	div#header
-		div.navbar.navbar-inverse.navbar-fixed-top
-				div.container
-					div.navbar-header.navbar_a
-						a.navbar-brand(href='/index') #{title}
-					div.navbar-collapse.collapse(role="navigation")
-						ul.nav.navbar-nav
-							if islogin==1
+		nav.navbar.navbar-inverse
+			div.container-fluid
+				div.navbar-header
+					button.navbar-toggle.collapsed(type="button"  data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false")
+						span.sr-only Toggle navigation
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
+					a.navbar-brand JITLAB
+				div#bs-example-navbar-collapse-1.collapse.navbar-collapse
+					ul.nav.navbar-nav
+						li.active
+							a(href='#') 人员管理
+								span.sr-only (current)
+						li
+							a(href='#') 团队管理
+						li
+							a(href='#') 通知管理
+						li
+							a(href='#') 报表管理
+					ul.nav.navbar-nav.navbar-right
+						li
+							a(href="#") 当前版本
+						li.dropdown
+							a.dropdown-toggle(href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false") 个人中心
+								span.caret
+							ul.dropdown-menu
 								li
-									a 人员管理
+									a(href="#") 菜单1
 								li
-									a 团队管理
-								li  
-									a 通知管理
+									a(href="#") 菜单2
+								li.divider(role="separator")
 								li
-									a 报表管理 
-						ul.nav.navbar-nav.navbar-right.hidden-sm
-									li.dropdown
-									if islogin==1
-										a.dropdown-toggle(data-toggle="dropdown",aria-expanded="false") 个人中心
-										ul.dropdown-menu
-											li 
-												a(href='user/edit') 修改个人信息	
-									li.dropdown
-										a.dropdown-toggle 当前版本:#{version}					
-	block content
+									a(href="#") 退出
+	block content 

@@ -25,9 +25,98 @@ exports.showLogin = function (req, res) {
 
 //进入首页
 exports.showIndex = function (req, res) {
-    checkNotLogin(req, res);
-    renderIndex(res);
-}
+     renderIndex(res);
+};
+
+
+//登陆
+exports.Login = function (req, res, next) {
+    var ep = new eventproxy(),
+        account = validator.trim(req.body.account).toLowerCase(),
+        pwd = validator.trim(req.body.password),
+        imgcode = validator.trim(req.body.imgcode),
+        code = validator.trim(req.body.code),
+        randomcode = code;//随机值
+        
+    ep.fail(next);
+    
+    ep.on('prop_err', function (msg) {
+        res.status(403);
+        res.render('login', { error: msg })
+    });
+
+    if (imgcode != req.session.checkcode) {
+        ep.emit('prop_err', '验证码输入不正确!');
+        return;
+    }
+
+    if ([account, pwd, req.session.account].some(function (item) { return item === ''; })) {
+        ep.emit('prop_err', '帐号、密码、验证码都不能为空!');
+        return;
+    }
+
+    if (account.length < 5) {
+        ep.emit('prop_err', '账号不能少于5个字符');
+        return;
+    }
+
+    if (!tools.validateAccount(account)) {
+        ep.emit('prop_err', '账号格式不合法');
+        return;
+    }
+    //原始密码与我们的固定盐值进行拼接，然后做md5运算，运算后的结果再拼接上我们的随机码，再次md5运算，然后提交。
+    req.session.account = account;
+    var encryptpwd = tools.md5(tools.md5(pwd + config.secretsalt) + randomcode);
+    return User.checkLoginBySalt(account, function (err, data) {
+        if (err) {
+            return next(err);
+        }
+        if (data != null) {
+            if (tools.md5(data.pwd + req.session.randomcode) == encryptpwd) {
+                if (data.isadmin != 1) {
+                    ep.emit('prop_err', '您没有权限!');
+                }
+                else {
+                    renderIndex(res);
+                }
+            }
+        }
+    });
+};
+
+function renderIndex(res) {
+    //获取所有成员列表 
+    User.getUsersByCondition({ isadmin: false, isdel: false }, function (err, result) {
+        var griddata = { rows: result, total: result.length };
+        //遍历获取专业的名称
+        var getMajorName = function (item) {
+            var p = new Promise(function (resolve, reject) {
+                Major.getMajorNameByID(item.major, function (err, returndata) {
+                    if (!_.isNull(returndata)) {
+                        _.each(griddata.rows, function (inneritem, index, list) {
+                            if (inneritem.account == item.account && returndata != undefined) {
+                                inneritem.major = returndata.name;
+                            }
+                        });
+                    }
+                    resolve(returndata);
+                });
+            });
+            return p;
+        };
+
+        var promises = result.map(function (item) {
+            return getMajorName(item);
+        });
+
+        Promise.all(promises).then(function SuccessFun(result) {
+            res.render('home', { data: griddata, islogin: 1 });
+        }, function FailureFun(result) {
+             console.log(result);
+        });
+    });
+};
+
 
 exports.showReg = function (req, res) {
     // var schoolyears = [],
@@ -44,7 +133,8 @@ exports.showReg = function (req, res) {
     //     });
     //     res.render('reg', { schoolyears: schoolyears, schoolareas: areas, schools: [], majors: [] });
     // });
-}
+};
+
 //注册
 exports.Reg = function (req, res, next) {
     //     var account = validator.trim(req.body.account);
@@ -110,101 +200,4 @@ exports.Reg = function (req, res, next) {
     //         });
     //     });
 
-}
-
-//登陆
-exports.Login = function (req, res, next) {
-    var ep = new eventproxy();
-    var account = validator.trim(req.body.account).toLowerCase();
-    var pwd = validator.trim(req.body.password);
-    var imgcode = validator.trim(req.body.imgcode);
-    var code = validator.trim(req.body.code);
-    //随机值
-    var randomcode = code;
-    ep.fail(next);
-    ep.on('prop_err', function (msg) {
-        res.status(403);
-        res.render('login', { error: msg })
-    });
-
-    if (imgcode != req.session.checkcode) {
-        ep.emit('prop_err', '验证码输入不正确!');
-        return;
-    }
-
-    if ([account, pwd, req.session.account].some(function (item) { return item === ''; })) {
-        ep.emit('prop_err', '帐号、密码、验证码都不能为空!');
-        return;
-    }
-
-    if (account.length < 5) {
-        ep.emit('prop_err', '账号不能少于5个字符');
-        return;
-    }
-
-    if (!tools.validateAccount(account)) {
-        ep.emit('prop_err', '账号格式不合法');
-        return;
-    }
-    //原始密码与我们的固定盐值进行拼接，然后做md5运算，运算后的结果再拼接上我们的随机码，再次md5运算，然后提交。
-    req.session.account = account;
-    var encryptpwd = tools.md5(tools.md5(pwd + config.secretsalt) + randomcode);
-
-    return User.checkLoginBySalt(account, function (err, data) {
-        if (err) {
-            return next(err);
-        }
-        if (data != null) {
-            if (tools.md5(data.pwd + req.session.randomcode) == encryptpwd) {
-                if (data.isadmin != 1) {
-                    ep.emit('prop_err', '您没有权限登陆!');
-                    return;
-                }
-                else {
-                    res.redirect('/index');
-                }
-            }
-        }
-    });
-}
-
-function renderIndex(res) {
-    //获取所有成员列表 
-    User.getUsersByCondition({ isadmin: false, isdel: false }, function (err, result) {
-        var griddata = { rows: result, total: result.length };
-        //遍历获取专业的名称
-        var getMajorName = function (item) {
-            var p = new Promise(function (resolve, reject) {
-                Major.getMajorNameByID(item.major, function (err, returndata) {
-                    if (!_.isNull(returndata)) {
-                        _.each(griddata.rows, function (inneritem, index, list) {
-                            if (inneritem.account == item.account && returndata != undefined) {
-                                inneritem.major = returndata.name;
-                            }
-                        });
-                    }
-                    resolve(returndata);
-                });
-            });
-            return p;
-        };
-
-        var promises = result.map(function (item) {
-            return getMajorName(item);
-        });
-
-        Promise.all(promises).then(function SuccessFun(result) {
-            res.render('index', { data: griddata, islogin: 1 });
-        }, function FailureFun(result) {
-            console.log(result);
-        });
-    });
-}
-
-
-function checkNotLogin(req, res) {
-    if (req.session.account) {
-        req.flash('error', '已登录!');
-        res.redirect('back');//返回之前的页面
-    }
-}
+};

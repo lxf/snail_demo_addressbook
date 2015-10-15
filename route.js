@@ -9,9 +9,16 @@ var user = require('./controllers/user');
 var userapi = require('./API/userAPI');
 var img = require('./controllers/img');
 
-// 登陆
+/*
+ *路由系统
+ *方法:app.route()可以给路由创建链式路由句柄
+ *新类:express.Router可以创建可挂在的模块化路由
+ *
+ */
+// 登陆,路由这边有问题
 router.get('/', homeController.showLogin);
 router.get('/login', homeController.showLogin);
+router.get('/user/logout', homeController.logout);
 
 //首页
 router.get('/index', authentication);
@@ -27,11 +34,13 @@ router.get('/generatecode', img.generateImgCode);
 router.get('/team', authentication);
 router.get('/team', teamController.showTeam);
 
-router.post('/team/add',authentication);
-router.post('/team/add',teamController.addTeam);
+router.post('/team/add', authentication);
+router.post('/team/add', teamController.addTeam);
 
-router.get('/team/getall',authentication);
-router.get('/team/getall',teamController.getTeams);
+router.get('/team/getall', authentication);
+router.get('/team/getall', teamController.getTeams);
+
+
 // 注册
 // router.get('/reg', homeController.showReg);
 // router.post('/reg', homeController.Reg);
@@ -49,6 +58,8 @@ router.get('/team/getall',teamController.getTeams);
 router.post('/user/update', authentication);
 router.post('/user/update', user.partialUpdate);
 
+
+
 //API related
 //router.post('/api/getuserinfo',userapi.getUserInfo)
 
@@ -58,7 +69,6 @@ function authentication(req, res, next) {
         req.session.error = '请登录';
         return res.redirect('/');
     }
-    console.log('已经登陆');
     next();
 }
 function notAuthentication(req, res, next) {

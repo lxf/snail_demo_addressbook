@@ -8,6 +8,9 @@ var mongostore = require('connect-mongo')(session);
 var flash = require('connect-flash');
 var config = require('./config/config');
 
+//测试路由
+var testRoute=require('./testroute');
+
 var accessLog = fs.createWriteStream('access.log', { flags: 'a' });
 
 var app = express();
@@ -26,7 +29,7 @@ app.use(bodyParser.urlencoded({
     limit: '100mb'
 }));
 
-//view engine jade
+//模板引擎Jade
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
@@ -45,6 +48,8 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', approute);
+//测试路由
+app.use('/snail',testRoute);
 
 app.use(function (req, res, next) {
     var err = new Error('未找到您要找的内容!');
@@ -52,9 +57,6 @@ app.use(function (req, res, next) {
     next(err);
 });
 
-
-// development error handler
-// will print stacktrace
 
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
@@ -66,14 +68,23 @@ if (app.get('env') === 'development') {
     });
 }
 
-// production error handler
-// no stacktraces leaked to user
+//记录错误日志
+app.use(function (err, req, res, next) {
+    /*
+    * 这边可以把error，存储到数据库或者文件中，以备查找
+    *一般企业会部署三套平台，（1）正式线上环境（2）线上测试环境（3）本地测试环境
+    */
+    
+    //这里暂且直接打印出来
+    console.log(err.stack);
+    next(err);
+});
 
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
-        error: {}
+        error: err.stack//这里需要看下
     });
 });
 

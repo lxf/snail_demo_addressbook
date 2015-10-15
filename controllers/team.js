@@ -20,6 +20,7 @@ exports.addTeam = function (req, res) {
 }
 
 exports.getTeams = function (req, res, next) {
+	console.log('??????');
 	teamModel.getTeams({ 'isdel': false }, {}, function (err, result) {
 		var griddata = { rows: result, total: result.length };
 		res.json(griddata);

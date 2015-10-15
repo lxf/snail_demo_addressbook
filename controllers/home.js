@@ -20,16 +20,19 @@ exports.showLogin = function (req, res) {
     //生成随机code，放到session中
     var randomcode = Math.random().toString(36).substr(2);
     req.session.randomcode = randomcode;
+    console.log('这是登陆页面');
     res.render('login', { title: config.app_name, version: config.app_version, randomcode: randomcode });
 }
 
 //进入首页
 exports.showIndex = function (req, res) {
-     renderIndex(res);
+    console.log('进入首页');
+    renderIndex(res);
 };
 
 //登陆
 exports.Login = function (req, res, next) {
+    console.log('登陆post开始');
     var ep = new eventproxy(),
         account = validator.trim(req.body.account).toLowerCase(),
         pwd = validator.trim(req.body.password),
@@ -38,7 +41,7 @@ exports.Login = function (req, res, next) {
         randomcode = code;//随机值
         
     ep.fail(next);
-    
+
     ep.on('prop_err', function (msg) {
         res.status(403);
         res.render('login', { error: msg })
@@ -111,10 +114,20 @@ function renderIndex(res) {
         Promise.all(promises).then(function SuccessFun(result) {
             res.render('home', { data: griddata, islogin: 1 });
         }, function FailureFun(result) {
-             console.log(result);
+            console.log(result);
         });
     });
 };
+
+//退出
+exports.logout = function (req, res) {
+    //step1.清除session
+    req.session.destroy(function () {
+        //step2.清除cookie
+        res.cookie('cm', null, { maxAge: 0 });
+        res.redirect('/');
+    });
+}
 
 
 exports.showReg = function (req, res) {

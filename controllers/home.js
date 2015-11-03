@@ -20,7 +20,6 @@ exports.showLogin = function (req, res) {
     //生成随机code，放到session中
     var randomcode = Math.random().toString(36).substr(2);
     req.session.randomcode = randomcode;
-    console.log('这是登陆页面');
     res.render('login', { title: config.app_name, version: config.app_version, randomcode: randomcode });
 }
 
@@ -32,7 +31,6 @@ exports.showIndex = function (req, res) {
 
 //登陆
 exports.Login = function (req, res, next) {
-    console.log('登陆post开始');
     var ep = new eventproxy(),
         account = validator.trim(req.body.account).toLowerCase(),
         pwd = validator.trim(req.body.password),

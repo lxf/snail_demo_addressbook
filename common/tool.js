@@ -1,5 +1,4 @@
-
-var bcrypt = require('bcrypt');
+// var bcrypt = require('bcrypt');
 var crypto = require('crypto');
 var moment = require('moment');
 moment.locale('zh-cn'); // 使用中文

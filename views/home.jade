@@ -27,7 +27,7 @@ block content
 								th(data-options="field:'school_year',editor:{type:'combobox',options:{data:commonData.getSchoolYear(),valueField:'value',textField:'text'}}" width="40") 入学年份
 								th(data-options="field:'major',editor:{type:'combobox',options:{data:commonData.getMajor(),valueField:'value',textField:'text'}}" width="100") 专业
 								th(data-options="field:'description',editor:{type:'text'}" width="100" ) 自我描述
-								th(data-options="field:'isdel',editor: { type: 'combobox', options: { data: commonData.getYesOrNoData(), valueField: 'value', textField: 'text' }}" width="60") 是否禁用
+								th(data-options="field:'isdel',editor: { type: 'combobox', options: { data: commonData.getYesOrNoData(), valueField: 'value', textField: 'text' }}" width="60"  formatter='Common.YesOrNoFormat') 是否禁用
 						tbody
 	script(type='text/javascript').                                                  
 		var local_data =!{JSON.stringify(data)};   

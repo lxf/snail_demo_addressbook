@@ -48,6 +48,8 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', approute);
+
+//挂载一个新的路由模块，以后可以按功能划分路由模块，
 //测试路由
 app.use('/snail',testRoute);
 

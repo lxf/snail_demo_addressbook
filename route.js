@@ -24,7 +24,7 @@ router.get('/user/logout', homeController.logout);
 router.get('/index', authentication);
 router.get('/index', homeController.showIndex);
 
-router.post('/index', authentication);
+// router.post('/index', authentication);
 router.post('/index', homeController.Login);
 
 //生成验证码

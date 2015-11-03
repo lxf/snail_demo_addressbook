@@ -24,7 +24,7 @@ block content
 								th(data-options="field:'_id'" width="1" hidden=true) _id
 								th(data-options="field:'teamname',editor:{type:'text'}" width="80") 团队名称
 								th(data-options="field:'description',editor:{type:'text'}" width="120" ) 团队描述
-								th(data-options="field:'isdel',editor: { type: 'combobox', options: { data: commonData.getYesOrNoData(), valueField: 'value', textField: 'text' }}" width="60") 是否禁用
+								th(data-options="field:'isdel',editor: { type: 'combobox', options: { data: commonData.getYesOrNoData(), valueField: 'value', textField: 'text' }}" width="60" formatter='Common.YesOrNoFormat') 是否禁用
 						tbody
 	script(type='text/javascript').                                                  
 		var local_data =!{JSON.stringify(data)};   

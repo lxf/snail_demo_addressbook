@@ -10,6 +10,7 @@ var Promise = require('bluebird');
 //配置
 var config = require('../config/config');
 
+//测试
 //模型
 var User = require('../models/usermodel');
 var Major = require('../models/majormodel');

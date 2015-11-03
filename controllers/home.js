@@ -20,13 +20,11 @@ exports.showLogin = function (req, res) {
     //生成随机code，放到session中
     var randomcode = Math.random().toString(36).substr(2);
     req.session.randomcode = randomcode;
-    console.log('这是登陆页面');
     res.render('login', { title: config.app_name, version: config.app_version, randomcode: randomcode });
 }
 
 //进入首页
 exports.showIndex = function (req, res) {
-    console.log('进入首页');
     renderIndex(res);
 };
 

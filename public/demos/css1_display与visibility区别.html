@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>visibility:hidden与display:none区别</title>
+	<style type="text/css">
+		p {
+			width: 100%;
+			height: 50px;
+			border:1px solid black;
+		}
+	</style>
+</head>
+
+<body>
+	<div>
+		<p>display:none</p>
+		<p style="display:none"></p>
+		<p>请观察下上下的距离,这边与上面的距离短</p>
+		<p style="visibility:hidden"></p>
+		<p>请观察下上下的距离，这边与上面的距离长，说明visibility:hidden仍然占用着空间</p>
+		
+	</div>
+
+</body>
+
+</html>

@@ -26,7 +26,6 @@ exports.showLogin = function (req, res) {
 
 //进入首页
 exports.showIndex = function (req, res) {
-    console.log('进入首页');
     renderIndex(res);
 };
 
@@ -65,6 +64,7 @@ exports.Login = function (req, res, next) {
         ep.emit('prop_err', '账号格式不合法');
         return;
     }
+    
     //原始密码与我们的固定盐值进行拼接，然后做md5运算，运算后的结果再拼接上我们的随机码，再次md5运算，然后提交。
     req.session.account = account;
     var encryptpwd = tools.md5(tools.md5(pwd + config.secretsalt) + randomcode);
@@ -75,12 +75,19 @@ exports.Login = function (req, res, next) {
         if (data != null) {
             if (tools.md5(data.pwd + req.session.randomcode) == encryptpwd) {
                 if (data.isadmin != 1) {
+                    console.log(111);
                     ep.emit('prop_err', '您没有权限!');
                 }
                 else {
                     renderIndex(res);
                 }
             }
+            else {
+                ep.emit('prop_err', '用户名或密码不正确!');
+            }
+        }
+        else {
+            ep.emit('prop_err', '没有相关数据!');
         }
     });
 };

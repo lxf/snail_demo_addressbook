@@ -7,7 +7,8 @@ var ObjectId = Schema.ObjectId;
 var TeamSchema = new Schema({
     teamname: { type: String },
     description: { type: String },
-    isdel: { type: Boolean, default: false }
+    isdel: { type: Boolean, default: false },
+    operate_date: { type: Date, default: Date.now }
 });
 
 var Team = mongodb.mongoose.model("c_team", TeamSchema);
@@ -19,6 +20,7 @@ TeamDAO.prototype.addTeam = function (teamname, description, isdel, callback) {
     var team = new Team({
         teamname: teamname,
         description: description,
+        operate_date:new Date(),
         isdel: isdel
     });
 

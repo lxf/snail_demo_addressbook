@@ -39,6 +39,9 @@ router.post('/team/add', teamController.addTeam);
 router.get('/team/getall', authentication);
 router.get('/team/getall', teamController.getTeams);
 
+router.post('/team/getall', authentication);
+router.post('/team/getall', teamController.getTeams);
+
 
 // 注册
 // router.get('/reg', homeController.showReg);

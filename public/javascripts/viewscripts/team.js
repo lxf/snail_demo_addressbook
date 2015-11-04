@@ -1,7 +1,11 @@
 //团队管理
 var easy = new easyGridIniter($('#dgForTeam'), {
 				easyOpts: {
+		postUrl: '/team/getall',
 		pageSize: 20,
+		sort: 'teamname',
+		order: 'asc',
+		columns:[],//不写，默认全部
 		fitColumns: true,
 		showFooter: true,
 		onBeforeEdit: function (index, row) {
@@ -34,5 +38,5 @@ $(document).ready(function () {
 	//加载数据，你可以在后台render的时候直接回传数据
 	util.sendGet('/team/getall', function (result) {
 		$("#dgForTeam").datagrid("loadData", result);
-	})
+	});
 });

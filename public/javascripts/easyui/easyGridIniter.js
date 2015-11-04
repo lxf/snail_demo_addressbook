@@ -14,7 +14,6 @@ easyGridIniter.prototype = (function () {
 
             var self = this;
 
-
             if ($.isArray(self.opts.easyOpts.pageList)) {
                 if ($.inArray(self.opts.easyOpts.pageSize, self.opts.easyOpts.pageList) < 0) {
 
@@ -94,22 +93,30 @@ easyGridIniter.prototype = (function () {
             });
 
             grid.datagrid("options").loader = function (easyParam, success, error) {
-
                 var that = $(this);
                 var opts = that.datagrid("options");
+                var sorting = {};
 
                 if (!opts.postUrl) {
                     return false;
                 }
 
                 var params = getCondition(easyParam, self.opts.search.id);
-
+              
+                if (opts.sort) {
+                    var order = opts.order == "asc" ? 1 : -1;
+                    sorting[opts.sort] = order;
+                }
+                params["Sorting"]=sorting;
+                params["Columns"]=opts.columns;
+                
                 $.ajax({
                     type: 'POST',
                     url: opts.postUrl,
                     data: JSON.stringify(params),
                     contentType: "application/json",
                     success: function (data) {
+                        //这边需要修改
                         if (data != null && data != "") {
                             if (data.errorMessage) {
                                 data.rows = 0;
@@ -119,26 +126,20 @@ easyGridIniter.prototype = (function () {
                         }
                         else {
                             var tempdata = {};
-
                             tempdata.rows = [];
                             tempdata.total = 0;
                             success(tempdata);
-
                         }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                       // alert('数据加载错误！状态码：' + XMLHttpRequest.status);
+                        // alert('数据加载错误！状态码：' + XMLHttpRequest.status);
                         error.apply(this, arguments);
-
                     }
                 });
             };
 
-
             $("#" + self.opts.search.searchButtonId).click(function () {
-
                 grid.datagrid('load');
-
             });
 
             $("#" + self.opts.search.clearButtonId).click(function () {
@@ -158,19 +159,9 @@ easyGridIniter.prototype = (function () {
 
 var getCondition = function (easyParam, searchId) {
 
-    var sorting = [];
-
-    if (easyParam.sort) {
-
-        var order = easyParam.order == "asc" ? 0 : 1;
-
-        sorting.push({ Field: easyParam.sort, Order: order });
-    }
-
     var params = {
         pageCondition: {
             Condition: {
-                Sorting: sorting,
                 Filters: getFilters(searchId)
             },
             PageFilter: {
@@ -240,7 +231,7 @@ $.extend($.fn.datagrid.defaults.editors, {
     datetimebox: {
         init: function (container, options) {
             var input = $('<input type="text" class="easyui-datetimebox" >')
-              .appendTo(container);
+                .appendTo(container);
             //编辑框延迟加载
             window.setTimeout(function () {
                 input.datetimebox($.extend({ editable: false }, options));

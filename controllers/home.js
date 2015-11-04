@@ -75,7 +75,6 @@ exports.Login = function (req, res, next) {
         if (data != null) {
             if (tools.md5(data.pwd + req.session.randomcode) == encryptpwd) {
                 if (data.isadmin != 1) {
-                    console.log(111);
                     ep.emit('prop_err', '您没有权限!');
                 }
                 else {

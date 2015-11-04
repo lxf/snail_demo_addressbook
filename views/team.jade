@@ -7,14 +7,14 @@ block content
 				.panel-heading
 					p 团队管理
 				.panel-body
-					.row.search_row
+					#search.row.search_row
 						div.col-md-3.col-xs-3
 							button#btnaddteam.btn.btn-info(type="button") 新增团队
 						div.col-md-3.col-xs-5.pull-right
 							div.input-group
-								input.form-control(type='text' placeholder="请输入团队名称")
+								input.form-control(type='text' placeholder="请输入团队名称" data-field="teamname" data-area="search" data-operator='5')
 								span.input-group-btn
-									button.btn.btn-default(type="button") 查询
+									button.btn.btn-default(type="button" id="btnSearch" ) 查询
 					table#dgForTeam(style="width:auto")
 						thead(frozen='true')
 							tr

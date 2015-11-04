@@ -14,16 +14,17 @@ exports.addTeam = function (req, res) {
 		isdel = req.body.isdel;
 
 	teamModel.addTeam(teamname, description, isdel, function (err, result) {
-		console.log('err:' + err);
-		console.log(result);
+		// console.log('err:' + err);
+		// console.log(result);
 	});
 }
 
+//查询获取团队
 exports.getTeams = function (req, res, next) {
-	console.log('??????');
-	teamModel.getTeams({ 'isdel': false }, {}, function (err, result) {
+	var pageCon = req.body;
+	teamModel.getTeams(pageCon, function (err, result) {
+		console.log(result);
 		var griddata = { rows: result, total: result.length };
 		res.json(griddata);
 	});
-
 }

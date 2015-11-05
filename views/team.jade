@@ -8,13 +8,19 @@ block content
 					p 团队管理
 				.panel-body
 					#search.row.search_row
-						div.col-md-3.col-xs-3
-							button#btnaddteam.btn.btn-info(type="button") 新增团队
-						div.col-md-3.col-xs-5.pull-right
+						div.col-md-3.col-xs-5
 							div.input-group
+								div.input-group-addon 团队描述
+								input.form-control(type='text' placeholder="请输入团队描述" id='teamdesc' data-field="description" data-area="search" data-operator='5')
+						div.col-md-3.col-xs-5
+							div.input-group
+								div.input-group-addon 团队名称
 								input.form-control(type='text' placeholder="请输入团队名称" data-field="teamname" data-area="search" data-operator='5')
+						div.col-md-2.col-xs-3.pull-right
+							div.input-group
 								span.input-group-btn
-									button.btn.btn-default(type="button" id="btnSearch" ) 查询
+									button#btnaddteam.btn.btn-info.marginr5(type="button") 新增团队
+									button.btn.btn-primary.marginr5(type="button" id="btnSearch" ) 查询
 					table#dgForTeam(style="width:auto")
 						thead(frozen='true')
 							tr

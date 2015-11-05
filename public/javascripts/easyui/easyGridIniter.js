@@ -108,7 +108,7 @@ easyGridIniter.prototype = (function () {
                     sorting[opts.sort] = order;
                 }
                 params["Sorting"]=sorting;
-                params["Columns"]=opts.columns;
+                params["ShowColumns"]=opts.showColumns;
                 
                 $.ajax({
                     type: 'POST',

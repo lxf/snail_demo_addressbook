@@ -23,8 +23,11 @@ exports.addTeam = function (req, res) {
 exports.getTeams = function (req, res, next) {
 	var pageCon = req.body;
 	teamModel.getTeams(pageCon, function (err, result) {
-		console.log(result);
-		var griddata = { rows: result, total: result.length };
-		res.json(griddata);
+		teamModel.getTeamsCount({}, function (err, count) {
+			var griddata = { rows: result, total: count };
+			res.json(griddata);
+		})
 	});
+
+
 }

@@ -1,11 +1,11 @@
 //团队管理
 var easy = new easyGridIniter($('#dgForTeam'), {
-				easyOpts: {
+	easyOpts: {
 		postUrl: '/team/getall',
-		pageSize: 20,
+		// pageSize: 15,加了pageSize出问题了
 		sort: 'teamname',
 		order: 'asc',
-		columns:[],//不写，默认全部
+		showColumns: "_id teamname description operate_date isdel",
 		fitColumns: true,
 		showFooter: true,
 		onBeforeEdit: function (index, row) {

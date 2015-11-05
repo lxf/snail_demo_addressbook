@@ -2,6 +2,10 @@
 input{
   color:black;
 }
+.marginr5
+{
+  margin-right: 5px!important;
+}
 /*Global  End*/
 
 /*Login Begin*/
@@ -88,3 +92,7 @@ input{
   padding: 0;
 }
 /*index End*/
+
+/*team Begin*/
+
+/*team End*/

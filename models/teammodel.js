@@ -1,4 +1,5 @@
 var crypto = require('crypto');
+var tools = require('../common/tool');
 var _ = require("underscore")._;
 var mongodb = require('./mongodb');
 var Schema = mongodb.mongoose.Schema;
@@ -39,19 +40,18 @@ TeamDAO.prototype.getTeams = function (opts, callback) {
     var skipNum = (pageIndex - 1) * pageSize;
     var sortobj = opts.Sorting;
     var queryobj = {};
-    var showcols = opts.Columns;
-    //暂时不扩展，查询条件包含>,<等，只考虑相等
-    _.each(opts.pageCondition.Condition.Filters, function (item, index, list) {
-        for (var attr in item) {
-            if (attr != 'Filter') {
-                queryobj[attr] = item[attr];
-            }
-        }
+    var showcols = opts.ShowColumns;
+
+    Team.count({}, function (err, count) {
+        var query = Team.find(tools.objToString(opts.pageCondition.Condition.Filters), showcols).sort(sortobj).skip(skipNum).limit(pageSize);
+        query.exec(callback);
     });
-    // var query = Team.find({}, []).sort({teamname:1}).skip(0).limit(20);
-    var query = Team.find(queryobj, showcols).sort(sortobj).skip(skipNum).limit(pageSize);
-    query.exec(callback);
 };
+
+//查询总共记录数
+TeamDAO.prototype.getTeamsCount = function (opts, callback) {
+    Team.count(opts, callback);
+}
 
 module.exports = new TeamDAO();
 

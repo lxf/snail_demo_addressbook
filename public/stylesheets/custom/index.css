@@ -22,9 +22,14 @@ input{
   border-color: whitesmoke;
 }
 
+.navbar-inverse .navbar-brand
+{
+  color: whitesmoke;
+}
+
 .navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus {
   color: #fff;
-  background-color: #0C4983;
+  background-color: #989898;
 }
 
 .page-header {

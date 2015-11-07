@@ -1,6 +1,7 @@
 //验证码
 var captchapng=require('captchapng');
 
+//生成验证码
 exports.generateImgCode=function(req,res)
 {
     var width=!isNaN(parseInt(req.query.width))?parseInt(req.query.width):100;

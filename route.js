@@ -2,8 +2,7 @@
 var config = require('./config/config');
 var router = express.Router();
 
-var homeController = require('./controllers/Home');
-var university = require('./controllers/university');
+var homeController = require('./controllers/home');
 var teamController = require('./controllers/team');
 var user = require('./controllers/user');
 var userapi = require('./API/userAPI');
@@ -15,6 +14,7 @@ var img = require('./controllers/img');
  *新类:express.Router可以创建可挂在的模块化路由
  *
  */
+
 // 登陆,路由这边有问题
 router.get('/', homeController.showLogin);
 router.get('/login', homeController.showLogin);

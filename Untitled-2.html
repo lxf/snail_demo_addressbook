@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="icon" href="/images/favicon.ico">
+	<title></title>
+	<link rel="stylesheet" href="/stylesheets/easyui/easyui.css">
+	<link rel="stylesheet" href="/stylesheets/bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="/stylesheets/bootstrap/bootstrap-responsive.css">
+	<link rel="stylesheet" href="/stylesheets/custom/index.css">
+	<link rel="stylesheet" href="/stylesheets/artDialog/ui-dialog.css">
+	<script src="/javascripts/jquery/jquery-1.11.1.min.js"></script>
+	<script src="/javascripts/bootstrap/bootstrap.min.js">
+
+	</script>
+	<script src="/javascripts/custom/index.js">
+
+	</script>
+	<script src="/javascripts/tools/tools.js">
+
+	</script>
+	<script src="/javascripts/tools/commondata.js">
+
+	</script>
+	<script src="/javascripts/underscore/underscore.js">
+
+	</script>
+	<script src="/javascripts/easyui/jquery.easyui-1.3.6.min.js">
+
+	</script>
+	<script src="/javascripts/easyui/jquery.extend.js">
+
+	</script>
+	<script src="/javascripts/easyui/easyui-lang-zh_CN.js">
+
+	</script>
+	<script src="/javascripts/easyui/easyGridIniter.js">
+
+	</script>
+	<script src="/javascripts/easyui/common.js">
+
+	</script>
+	<script src="/javascripts/artDialog/dialog-min.js">
+
+	</script>
+	<script src="http://apps.bdimg.com/libs/Cookies.js/0.4.0/cookies.min.js">
+
+	</script>
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+				<a
+				class="navbar-brand">JITLAB</a>
+			</div>
+		</div>
+		<div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
+			<ul id="menuul" class="nav navbar-nav">
+				<li id="lipeople" onclick="util.clickMenu" class="active"><a href="/index">人员管理<span class="sr-only">(current)</span></a></li>
+				<li id="liteam" onclick="util.clickMenu(this)"><a href="/team">团队管理</a></li>
+				<li id="linotice" onclick="util.clickMenu(this)"><a href="#">通知管理</a></li>
+				<li id="lireport" onclick="util.clickMenu(this)"><a href="#">报表管理</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#">当前版本 </a></li>
+				<li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">个人中心<span class="caret"></span></a>
+					<ul
+					class="dropdown-menu">
+						<li><a href="#">菜单1</a></li>
+						<li><a href="#">菜单2</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="/user/logout">退出</a></li>
+			</ul>
+			</li>
+			</ul>
+		</div>
+	</nav>
+</body>
+<div id="container" class="container pageindex">
+	<div class="row">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<p>人员管理</p>
+			</div>
+			<div class="panel-body">
+				<div class="row search_row">
+					<div class="col-md-3 col-xs-5 pull-right">
+						<div class="input-group">
+							<input type="text" placeholder="请输入真名" class="form-control"><span class="input-group-btn"><button type="button" class="btn btn-default">查询</button></span></div>
+					</div>
+				</div>
+				<table id="dgForPeople" style="width:auto">
+					<thead frozen="true">
+						<tr>
+							<th data-options="field:'_operate'" align="center" formatter="util.initOperateWithPwd" width="80">操作</th>
+						</tr>
+					</thead>
+					<thead>
+						<tr>
+							<th data-options="field:'_id'" width="1" hidden>_id</th>
+							<th data-options="field:'account'" width="80">账号</th>
+							<th data-options="field:'realname'" width="80">真名</th>
+							<th data-options="field:'phone',editor:{type:'text'}" width="80">手机</th>
+							<th data-options="field:'email',editor:{type:'text'}" width="100">邮箱</th>
+							<th data-options="field:'school_year',editor:{type:'combobox',options:{data:commonData.getSchoolYear(),valueField:'value',textField:'text'}}"
+							width="40">入学年份</th>
+							<th data-options="field:'major',editor:{type:'combobox',options:{data:commonData.getMajor(),valueField:'value',textField:'text'}}"
+							width="100">专业</th>
+							<th data-options="field:'description',editor:{type:'text'}" width="100">自我描述</th>
+							<th data-options="field:'isdel',editor: { type: 'combobox', options: { data: commonData.getYesOrNoData(), valueField: 'value', textField: 'text' }}"
+							width="60" formatter="Common.YesOrNoFormat">是否禁用</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	var local_data ={"rows":[{"_id":"55fa59b1e4b01124a0158dc5","account":"snail","realname":"李小飞","phone":"18621983356","email":"544207706@qq.com","pwd":"8c7772121c1ddc0f370533c8169fdcee","school_year":2009,"major":"计算机科学与技术","description":"自我描述","isadmin":false,"isdel":false},{"_id":"55fe20f161741f6c8b6ac0c0","account":"user1","realname":"张三","phone":"13721983356","email":"33207706@qq.com","pwd":"8c7772121c1ddc0f370533c8169fdcee","school_year":2010,"major":"计算机科学与技术","description":"自我描述23233","isadmin":false,"isdel":false}],"total":2};
+</script>
+<script>
+	//人员管理
+var easy = new easyGridIniter($('#dgForPeople'), {
+				easyOpts: {
+		pageSize: 20,
+		fitColumns: true,
+		showFooter: true,
+		onBeforeEdit: function (index, row) {
+			row.editing = true;
+			util.updateActions('dgForPeople', index);
+		},
+		onAfterEdit: function (index, row) {
+			row.editing = false;
+			util.updateActions('dgForPeople', index);
+		},
+		onCancelEdit: function (index, row) {
+			row.editing = false;
+			util.updateActions('dgForPeople', index);
+		}
+	}
+});
+$("#dgForPeople").datagrid("loadData", local_data);
+
+</script>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+			<hr />
+			<p><a href="http://www.upsnail.com" target="_blank"> JIT Lab@2015 All Right Reserved</a></p>
+		</div>
+	</div>
+</div>
+
+</html>

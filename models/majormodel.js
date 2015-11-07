@@ -10,8 +10,6 @@ var MajorSchema = new Schema({
 var Major = mongodb.mongoose.model("c_major", MajorSchema);
 var MajorDAO = function () { };
 
-
-
 //获取专业名称
 MajorDAO.prototype.getMajorNameByID=function(major,callback)
 {

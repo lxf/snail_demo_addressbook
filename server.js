@@ -96,7 +96,3 @@ app.listen(config.port, config.host, function () {
     console.log('在端口:' + app.get('port') + '监听!');
 });
           
-//setTimeout(function () {
-//    console.log(new Date());
-//    throw new Error("App Error");
-//}, 10 * 1000);

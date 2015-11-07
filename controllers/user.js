@@ -1,7 +1,6 @@
 var validator = require('validator');
 var eventproxy = require('eventproxy');
 var User = require('../models/usermodel');
-var College = require('../models/collegemodel');
 var _ = require("underscore")._;
 
 //更新用户信息

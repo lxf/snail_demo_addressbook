@@ -14,13 +14,13 @@ var config = require('../config/config');
 //模型
 var User = require('../models/usermodel');
 var Major = require('../models/majormodel');
-var College = require('../models/collegemodel');
 
-//显示注册页面
+//显示登陆页面
 exports.showLogin = function (req, res) {
     //生成随机code，放到session中
     var randomcode = Math.random().toString(36).substr(2);
     req.session.randomcode = randomcode;
+    console.log('生成的randomcode:'+req.session.randomcode);
     res.render('login', { title: config.app_name, version: config.app_version, randomcode: randomcode });
 }
 
@@ -73,6 +73,13 @@ exports.Login = function (req, res, next) {
             return next(err);
         }
         if (data != null) {
+            console.log('输入的密码:'+data.pwd);
+            console.log('随机码:'+req.session.randomcode);
+            console.log('md5后密码:'+tools.md5(data.pwd + req.session.randomcode));
+            console.log('数据库中的密码:'+encryptpwd);
+            console.log('session中的randomcode:'+req.session.randomcode);
+            console.log('请求中的randomcode:'+randomcode);
+            
             if (tools.md5(data.pwd + req.session.randomcode) == encryptpwd) {
                 if (data.isadmin != 1) {
                     ep.emit('prop_err', '您没有权限!');

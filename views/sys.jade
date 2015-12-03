@@ -1,0 +1,31 @@
+extends shared/layout
+
+block content
+	div#container.container.pageindex
+		.row
+			.panel.panel-primary
+				.panel-heading
+					p 系统导入
+				.panel-body
+					.row.search_row
+						div.col-md-3.col-xs-5.pull-right
+							div.input-group
+								input.form-control(type='text' placeholder="请输入消费备注")
+								span.input-group-btn
+									button.btn.btn-default(type="button") 查询
+					table#dgForPeople(style="width:auto")
+						thead(frozen='true')
+							tr
+								th(data-options="field:'_operate'" align="center" formatter="util.initOperateWithPwd" width="80") 操作
+						thead
+							tr
+								th(data-options="field:'_id'" width="1" hidden=true) _id
+								th(data-options="field:'CostDate'" width="80") 交易日期
+								th(data-options="field:'CostRemark'" width="80") 消费备注
+								th(data-options="field:'CostNum'" width="80") 消费金额
+						tbody
+	script(type='text/javascript').                                                  
+		var local_data =!{JSON.stringify(data)};   
+	script
+		include ../public/javascripts/viewscripts/index.js
+	include shared/footer.jade

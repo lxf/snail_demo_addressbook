@@ -25,6 +25,7 @@ router.get('/index', authentication);
 router.get('/index', homeController.showIndex);
 
 router.post('/index', homeController.Login);
+router.post('/', homeController.Login);
 
 //生成验证码
 router.get('/generatecode', img.generateImgCode);
@@ -60,6 +61,9 @@ router.post('/team/getall', teamController.getTeams);
 router.post('/user/update', authentication);
 router.post('/user/update', user.partialUpdate);
 
+//系统配置导入
+router.get('/system/index', authentication);
+router.get('/system/index', teamController.getTeams);
 
 
 //API related
